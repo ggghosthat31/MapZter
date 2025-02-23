@@ -1,0 +1,6 @@
+@MapZter.API_HostAddress = http://localhost:5075
+
+GET {{MapZter.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
