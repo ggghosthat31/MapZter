@@ -26,7 +26,7 @@ public class MapClientServiceTest
         var lon = 5.5675366d;
         var resp = _mapService.ReverseGeocode(lat, lon).Result;
         System.Console.WriteLine("Reverse geocode test case: ");
-        System.Console.WriteLine(resp);
+        System.Console.WriteLine($"{resp.Latitude} {resp.Longitude}");
     }
 
     [Fact]

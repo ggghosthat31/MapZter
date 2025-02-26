@@ -1,3 +1,6 @@
+using MapZter.Entity.Models;
+using Newtonsoft.Json;
+
 namespace MapZter.API.Services;
 
 public sealed class MapClientService
@@ -9,11 +12,13 @@ public sealed class MapClientService
         _httpClient = httpClient;
     }
 
-    public async Task<string> ReverseGeocode(double lat, double lon)
+    public async Task<Place> ReverseGeocode(double lat, double lon)
     {
         string url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
         var response = await _httpClient.GetAsync(url);
-        return await response.Content.ReadAsStringAsync();
+        var data =  await response.Content.ReadAsStringAsync();
+        var parsed = JsonConvert.DeserializeObject<Place>(data);
+        return parsed;
     }
 
     public async Task<object> Geocode(string address)

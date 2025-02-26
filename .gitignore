@@ -1,0 +1,14 @@
+MapZter.API/bin
+MapZter.API/obj
+MapZter.Contracts/bin
+MapZter.Contracts/obj
+MapZter.Core/bin
+MapZter.Core/obj
+MapZter.Entity/bin
+MapZter.Entity/obj
+MapZter.Logger/bin
+MapZter.Logger/obj
+MapZter.Repository/bin
+MapZter.Repository/obj
+MapZter.Tests/bin
+MapZter.Tests/obj

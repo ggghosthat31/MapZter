@@ -53,6 +53,13 @@ public static class ServiceExtensions
     public static void ConfigureResponseCaching(this IServiceCollection services) =>
         services.AddResponseCaching();
 
+
+    public static void ConfigureApplication(this IServiceCollection services)
+    {
+        
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies() );
+    }
+
     public static void ConfigureSwagger(this IServiceCollection services)
     {
         services.AddSwaggerGen(s =>
