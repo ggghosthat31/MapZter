@@ -8,18 +8,16 @@ public class MapClientServiceTest
 
     public MapClientServiceTest()
     {
-        var http = GenerateHttpClient();
-        _mapService = new(http);
+        var httpClient = GenerateHttpClient();
+        _mapService = new(httpClient);
     }
-
-
-//50.6405323,5.5675366,18.71z
 
     private HttpClient GenerateHttpClient()
     {
-        return new HttpClient();
+        var client =  new HttpClient();
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("test");
+        return client;
     }
-
 
     [Fact]
     public void ReverseGeocodeFetchTest()

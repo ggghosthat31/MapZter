@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MapZter.Entity")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90fc0b008a3869d6a5540d0221831cd2352a676e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14822a015ea6952b4d5e9899290928da802b3cef")]
 [assembly: System.Reflection.AssemblyProductAttribute("MapZter.Entity")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MapZter.Entity")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
