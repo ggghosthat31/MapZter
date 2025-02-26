@@ -9,17 +9,19 @@ public sealed class MapClientService
         _httpClient = httpClient;
     }
 
-    public async Task<object> ReverseGeocode(double lat, double lon)
+    public async Task<string> ReverseGeocode(double lat, double lon)
     {
-        string url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}&zoom=18&addressdetails=1";
-        var response = await _httpClient.GetStringAsync(url);
-        return null;
+        string url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("geo");
+        var response = await _httpClient.GetAsync(url);
+        return await response.Content.ReadAsStringAsync();
     }
 
     public async Task<object> Geocode(string address)
     {
         string url = $"https://nominatim.openstreetmap.org/search?format=json&q={address}&limit=1";
-        var response = await _httpClient.GetStringAsync(url);
-        return response;
+        _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("geo");
+        var response = await _httpClient.GetAsync(url);
+        return await response.Content.ReadAsStringAsync();
     }
 }

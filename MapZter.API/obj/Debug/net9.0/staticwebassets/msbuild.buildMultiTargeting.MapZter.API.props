@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MapZter.API.props" />
+</Project>

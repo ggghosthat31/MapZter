@@ -1,0 +1,13 @@
+D:\repos\MapZter\MapZter.Entity\bin\Debug\net9.0\MapZter.Entity.deps.json
+D:\repos\MapZter\MapZter.Entity\bin\Debug\net9.0\MapZter.Entity.dll
+D:\repos\MapZter\MapZter.Entity\bin\Debug\net9.0\MapZter.Entity.pdb
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.csproj.AssemblyReference.cache
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.GeneratedMSBuildEditorConfig.editorconfig
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.AssemblyInfoInputs.cache
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.AssemblyInfo.cs
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.csproj.CoreCompileInputs.cache
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.sourcelink.json
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.dll
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\refint\MapZter.Entity.dll
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\MapZter.Entity.pdb
+D:\repos\MapZter\MapZter.Entity\obj\Debug\net9.0\ref\MapZter.Entity.dll
