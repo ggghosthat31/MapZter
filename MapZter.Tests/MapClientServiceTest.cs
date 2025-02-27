@@ -21,7 +21,7 @@ public class MapClientServiceTest
     }
 
     [Fact]
-    public void ReverseGeocodeFetchPlaceArrayTest()
+    public void ReverseGeocodeFetchPlaceArray()
     {
         var lat = 50.6405323d;
         var lon = 5.5675366d;
@@ -35,6 +35,18 @@ public class MapClientServiceTest
         string address = "Bd de la Sauvenière 146";
         var resp = _mapService.Geocode(address).Result;
         Assert.IsType<Place[]>(resp);
+    }
+
+    [Fact]
+    public void ReverseGeocodeGeoPointParamFetchPlaceTest()
+    {
+        var lat = 50.6405323d;
+        var lon = 5.5675366d;
+        var geoPoint = new GeoPoint(lat, lon);
+        var resp = _mapService.ReverseGeocode(geoPoint).Result;
+        var retrieved = resp.GetGeoPoint();
+        Assert.IsType<Place>(resp);
+        Assert.Equal(retrieved, geoPoint);
     }
 
     [Fact]
