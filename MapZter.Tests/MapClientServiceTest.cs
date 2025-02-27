@@ -1,4 +1,5 @@
 ﻿using MapZter.API.Services;
+using MapZter.Entity.Models;
 
 namespace MapZter.Tests;
 
@@ -20,13 +21,12 @@ public class MapClientServiceTest
     }
 
     [Fact]
-    public void ReverseGeocodeFetchTest()
+    public void ReverseGeocodeFetchPlaceArrayTest()
     {
         var lat = 50.6405323d;
         var lon = 5.5675366d;
         var resp = _mapService.ReverseGeocode(lat, lon).Result;
-        System.Console.WriteLine("Reverse geocode test case: ");
-        System.Console.WriteLine($"{resp.Latitude} {resp.Longitude}");
+        Assert.IsType<Place>(resp);
     }
 
     [Fact]
@@ -34,7 +34,27 @@ public class MapClientServiceTest
     {
         string address = "Bd de la Sauvenière 146";
         var resp = _mapService.Geocode(address).Result;
-        System.Console.WriteLine("Geocode test case: ");
-        System.Console.WriteLine(resp);
+        Assert.IsType<Place[]>(resp);
+    }
+
+    [Fact]
+    public void ReverseGeocodeRetrievedResultTest()
+    {
+        var lat = 50.6405323d;
+        var lon = 5.5675366d;
+        var actual = new GeoPoint(lat, lon);
+        var resp = _mapService.ReverseGeocode(lat, lon).Result;
+        var retrieved = resp.GetGeoPoint();
+        Assert.Equal(retrieved, actual);
+    }
+
+    [Fact]
+    public void GeocodeRetrievedResultTest()
+    {        
+        string address = "Bd de la Sauvenière 146";
+        var resp = _mapService.Geocode(address).Result;
+
+        Assert.NotNull(resp);
+        Assert.NotEmpty(resp);
     }
 }

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MapZter.API\MapZter.API.csproj" />
+    <ProjectReference Include="..\MapZter.Entity\MapZter.Entity.csproj" />
   </ItemGroup>
 
 </Project>

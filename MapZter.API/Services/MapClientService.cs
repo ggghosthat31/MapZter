@@ -21,11 +21,13 @@ public sealed class MapClientService
         return parsed;
     }
 
-    public async Task<object> Geocode(string address)
+    public async Task<Place[]> Geocode(string address)
     {
-        string url = $"https://nominatim.openstreetmap.org/search?format=json&q={address}&limit=1";
+        string url = $"https://nominatim.openstreetmap.org/search?format=json&q={address}";
         var response = await _httpClient.GetAsync(url);
-        return await response.Content.ReadAsStringAsync();
+        var data =  await response.Content.ReadAsStringAsync();
+        var parsed = JsonConvert.DeserializeObject<Place[]>(data);
+        return parsed;
     }
 
     public void Dispose()
