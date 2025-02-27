@@ -21,6 +21,15 @@ public sealed class MapClientService
         return parsed;
     }
 
+    public async Task<Place> ReverseGeocode(GeoPoint geoPoint)
+    {
+        string url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={geoPoint.Latitude}&lon={geoPoint.Longitude}";
+        var response = await _httpClient.GetAsync(url);
+        var data =  await response.Content.ReadAsStringAsync();
+        var parsed = JsonConvert.DeserializeObject<Place>(data);
+        return parsed;
+    }
+
     public async Task<Place[]> Geocode(string address)
     {
         string url = $"https://nominatim.openstreetmap.org/search?format=json&q={address}";
