@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MapZter.Entity.Models;
 
-public struct GeoPoint(double lat, double lon)
+public record struct GeoPoint(double lat, double lon)
 {
     public double Latitude { get; set; } = lat;
 
@@ -30,21 +30,5 @@ public struct GeoPoint(double lat, double lon)
     public override string ToString()
     {
         return $"{Latitude} {Longitude}";
-    }
-}
-
-public static class GeoPointExtenssions
-{
-    public static double SliceGeoVector(this double geoVector) => Math.Round(geoVector, 2, MidpointRounding.ToZero);
-
-    public static GeoPoint SliceGeoPoint(this GeoPoint geoPoint, int fracFrame = 2)
-    {
-        var eqInputLat = Math.Round(geoPoint.Latitude, fracFrame, MidpointRounding.ToZero);
-        var eqInputLon = Math.Round(geoPoint.Longitude, fracFrame, MidpointRounding.ToZero);
-
-        geoPoint.Latitude = eqInputLat;
-        geoPoint.Longitude = eqInputLon;
-
-        return geoPoint;
     }
 }

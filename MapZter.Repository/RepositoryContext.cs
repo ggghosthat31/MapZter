@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using MapZter.Entity.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace MapZter.Repository;
 
-public class RepostioryContext : IdentityDbContext
+public class RepositoryContext : IdentityDbContext
 {
-    public RepostioryContext(DbContextOptions options) : base(options)
-    {
-    }
+    public RepositoryContext(DbContextOptions options) : base(options)
+    {}
+
+    public DbSet<Place> Places { get; set; }
 }

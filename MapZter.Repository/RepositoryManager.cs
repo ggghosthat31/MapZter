@@ -1,14 +1,15 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
 using MapZter.Contracts.Interfaces;
 
 namespace MapZter.Repository;
 
 public class RepostioryManager : IRepositoryManager
 {
-    public RepostioryManager()
-    {}
+    private readonly RepositoryContext _repostioryContext;
+
+    public RepostioryManager(RepositoryContext repositoryContext)
+    {
+        _repostioryContext = repositoryContext;
+    }
 
     public async Task SaveAsync()
     {}

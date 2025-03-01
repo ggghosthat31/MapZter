@@ -8,11 +8,10 @@ using System.Reflection;
 
 namespace MapZter.API.Extensions;
 
-public enum DATABASE_TYPE
+public static class ServiceConfigure
 {
-    POSTGRESQL,
-    MSSQL
-}
+
+} 
 
 public static class ServiceExtensions
 {
@@ -30,7 +29,6 @@ public static class ServiceExtensions
 	public static void ConfigureLoggerService(this IServiceCollection services) =>
 		services.AddTransient<ILoggerManager, LoggerManager>();
 
-
     public static void ConfigureDatabaseContext(this IServiceCollection services, IConfiguration configuration, DATABASE_TYPE databaseType)
     {
         services.AddDbContext<RepostioryContext>(opts => {
@@ -44,7 +42,11 @@ public static class ServiceExtensions
                 case DATABASE_TYPE.MSSQL :
                     opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b => b.MigrationsAssembly(assemblyName));
                     break;
-            }});
+                case DATABASE_TYPE.IN_MEMORY :
+                    opts.UseInMemoryDatabase("InMemory");
+                    break;
+            }
+            });
     }
 
 	public static void ConfigureRepositoryManager(this IServiceCollection services) =>
@@ -53,12 +55,8 @@ public static class ServiceExtensions
     public static void ConfigureResponseCaching(this IServiceCollection services) =>
         services.AddResponseCaching();
 
-
-    public static void ConfigureApplication(this IServiceCollection services)
-    {
-        
+    public static void ConfigureApplication(this IServiceCollection services) =>
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies() );
-    }
 
     public static void ConfigureSwagger(this IServiceCollection services)
     {

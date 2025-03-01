@@ -1,7 +1,14 @@
-namespace MapZter.Entity.Models;
+namespace MapZter.Entities.RequestFeatures;
 
-public struct Address
+public class PlaceParameters : RequestParameters
 {
+    public PlaceParameters()
+    {
+        OrderBy = "place_id";
+    }
+
+    public string SearchTerm { get; set; }
+
     public string Road { get; set; }
 
     public string Hamlet { get; set; }
@@ -10,13 +17,9 @@ public struct Address
 
     public string City { get; set; }
 
-    public string ISO3166_2_lvl8 { get; set; }
-
     public string StateDistrict { get; set; }
 
     public string State { get; set; }
-
-    public string ISO3166_2_lvl4 { get; set; }
 
     public string Postcode { get; set; }
 
