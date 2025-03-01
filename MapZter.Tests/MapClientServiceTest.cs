@@ -1,5 +1,6 @@
 ﻿using MapZter.API.Services;
 using MapZter.Entity.Models;
+using MapZter.Logger;
 
 namespace MapZter.Tests;
 
@@ -10,7 +11,9 @@ public class MapClientServiceTest
     public MapClientServiceTest()
     {
         var httpClient = GenerateHttpClient();
-        _mapService = new(httpClient);
+        string mapFilePath = $"{Environment.CurrentDirectory}/md.html";
+        var loggerManager = new LoggerManager();
+        _mapService = new(mapFilePath, httpClient, loggerManager);
     }
 
     private HttpClient GenerateHttpClient()
@@ -68,5 +71,12 @@ public class MapClientServiceTest
 
         Assert.NotNull(resp);
         Assert.NotEmpty(resp);
+    }
+
+    [Fact]
+    public void RetriveMap()
+    {
+        var resp = _mapService.GetMap().Result;
+        Assert.NotNull(resp);
     }
 }

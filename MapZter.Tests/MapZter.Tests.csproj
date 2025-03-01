@@ -21,6 +21,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MapZter.API\MapZter.API.csproj" />
     <ProjectReference Include="..\MapZter.Entity\MapZter.Entity.csproj" />
+    <ProjectReference Include="..\MapZter.Logger\MapZter.Logger.csproj" />
+  
+    <None Update="md.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-
 </Project>
