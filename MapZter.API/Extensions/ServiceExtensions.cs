@@ -1,3 +1,4 @@
+using MapZter.API.Triggers;
 using MapZter.Contracts.Interfaces;
 using MapZter.Logger;
 using MapZter.Repository;
@@ -29,20 +30,20 @@ public static class ServiceExtensions
 	public static void ConfigureLoggerService(this IServiceCollection services) =>
 		services.AddTransient<ILoggerManager, LoggerManager>();
 
-    public static void ConfigureDatabaseContext(this IServiceCollection services, IConfiguration configuration, DATABASE_TYPE databaseType)
+    public static void ConfigureDatabaseContext(this IServiceCollection services, IConfiguration configuration, DATABASE_TRIGGERS databaseType)
     {
         services.AddDbContext<RepositoryContext>(opts => {
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
             switch(databaseType)
             {
-                case DATABASE_TYPE.POSTGRESQL : 
+                case DATABASE_TRIGGERS.POSTGRESQL : 
                     opts.UseNpgsql(configuration.GetConnectionString("postgresConnection"), b => b.MigrationsAssembly(assemblyName));
                     break;
-                case DATABASE_TYPE.MSSQL :
+                case DATABASE_TRIGGERS.MSSQL :
                     opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b => b.MigrationsAssembly(assemblyName));
                     break;
-                case DATABASE_TYPE.IN_MEMORY :
+                case DATABASE_TRIGGERS.IN_MEMORY :
                     opts.UseInMemoryDatabase("InMemory");
                     break;
             }

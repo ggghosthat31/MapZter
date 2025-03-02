@@ -66,6 +66,15 @@ public sealed class MapClientService
         var parsed = JsonConvert.DeserializeObject<Place[]>(data);
         return parsed;
     }
+    
+    //lookup
+    public async Task<Place[]> Lookup(char type, long placeId)
+    {
+        string url = $"https://nominatim.openstreetmap.org/lookup?osm_ids={type}{placeId}&format=json&extratags=1";
+        var response = await _httpClient.GetAsync(url);
+        var data =  await response.Content.ReadAsStringAsync();
+        return null;
+    }
 
     //server status
     public async Task<string> GetServerStatus()
@@ -75,17 +84,6 @@ public sealed class MapClientService
         var data =  await response.Content.ReadAsStringAsync();
         return data;
     }
-
-    public async Task<Place[]> Lookup(char type, long placeId)
-    {
-        string url = $"https://nominatim.openstreetmap.org/lookup?osm_ids={type}{placeId}&format=json&extratags=1";
-        var response = await _httpClient.GetAsync(url);
-        var data =  await response.Content.ReadAsStringAsync();
-        return null;
-    }
-
-    public void Dispose()
-    {
-        _httpClient.Dispose();
-    }
+    
+    public void Dispose() => _httpClient.Dispose();
 }
