@@ -11,7 +11,7 @@ public record struct GeoPoint(double lat, double lon)
     private static double SliceVector(double value) => 
         Math.Round(value, 2, MidpointRounding.ToZero);
 
-    public override bool Equals([NotNullWhen(true)] object obj)
+    public bool Equals(GeoPoint obj)
     {
         if (obj is GeoPoint geoPoint)
         {

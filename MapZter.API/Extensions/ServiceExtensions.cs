@@ -31,7 +31,7 @@ public static class ServiceExtensions
 
     public static void ConfigureDatabaseContext(this IServiceCollection services, IConfiguration configuration, DATABASE_TYPE databaseType)
     {
-        services.AddDbContext<RepostioryContext>(opts => {
+        services.AddDbContext<RepositoryContext>(opts => {
             var assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
 
             switch(databaseType)

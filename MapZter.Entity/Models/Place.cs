@@ -46,6 +46,9 @@ public record Place
     [JsonProperty("address")]
     public Address Address { get; set; }
 
+    [JsonProperty("extratags")]
+    public PlaceTag PlaceTag { get; set; }
+
     [JsonProperty("boundingbox")]
     public IEnumerable<double> BoundingBox { get; set; }
 
