@@ -40,6 +40,15 @@ public sealed class MapClientService
     }
 
     //geocoding
+    public async Task<Place[]> Geocode(string address)
+    {
+        string url = $"https://nominatim.openstreetmap.org/search?format=json&q={address}";
+        var response = await _httpClient.GetAsync(url);
+        var data =  await response.Content.ReadAsStringAsync();
+        var parsed = JsonConvert.DeserializeObject<Place[]>(data);
+        return parsed;
+    }
+    
     public async Task<Place> ReverseGeocode(double lat, double lon)
     {
         string url = $"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}";
@@ -58,15 +67,6 @@ public sealed class MapClientService
         return parsed;
     }
 
-    public async Task<Place[]> Geocode(string address)
-    {
-        string url = $"https://nominatim.openstreetmap.org/search?format=json&q={address}";
-        var response = await _httpClient.GetAsync(url);
-        var data =  await response.Content.ReadAsStringAsync();
-        var parsed = JsonConvert.DeserializeObject<Place[]>(data);
-        return parsed;
-    }
-    
     //lookup
     public async Task<Place[]> Lookup(char type, long placeId)
     {
