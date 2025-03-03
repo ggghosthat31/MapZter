@@ -4,6 +4,9 @@ namespace MapZter.Entity.Models;
 
 public class PlaceTag
 {
+    [JsonProperty("PlaceTagId")]
+    public long PlaceTagId {get; set;}
+    
     [JsonProperty("image")]
     public string Image { get; set; }
     

@@ -35,4 +35,7 @@ public abstract class RepositoryBase<T> where T : class
 
 	public void Delete(T entity) =>
 		_repostioryContext.Set<T>().Remove(entity);
+
+	public async Task ApplyChanges() =>
+		await _repostioryContext.SaveChangesAsync();
 } 
