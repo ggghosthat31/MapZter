@@ -1,29 +1,31 @@
 using MapZter.Repository;
 using MapZter.Entity.Models;
+using MapZter.Tests.Fixtures;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace MapZter.Tests;
 
-public class RepositoryTest
+public class RepositoryTest : IClassFixture<RepositoryFixture>
 {
     private readonly PlaceRepository placeRepository;
 
-    public RepositoryTest()
+    public RepositoryTest(RepositoryFixture repositoryFixture)
     {
-        placeRepository = DatabaseSeeder.GenerateInMemoryDatabase();
+        // placeRepository = DatabaseSeeder.GenerateInMemoryDatabase();
+        placeRepository = repositoryFixture.PlaceRepository;
     }
 
     [Fact]
     public void AddPlace_Test()
     {
-        var testPlace = new Place 
+        var testPlace = new Place
         {
-            PlaceId = 16281589,
+            PlaceId = 16234589,
 	        Licence = "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
 	        OsmType = "way",
-	        OsmId = 280940520,
+	        OsmId = 4252452435,
 	        Latitude = -34.44,
 	        Longitude = -58.70,
 	        Class = "highway",
@@ -48,10 +50,12 @@ public class RepositoryTest
             PlaceTag = null
         };
     
+        System.Console.WriteLine(testPlace.PlaceId);
         placeRepository.CreatePlace(testPlace).Wait();
         var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
 
         Assert.NotNull(retrievedPlace);
+        System.Console.WriteLine(retrievedPlace.Equals(testPlace));
         Assert.Equal(retrievedPlace, testPlace);
     }
 
@@ -91,6 +95,7 @@ public class RepositoryTest
         placeRepository.DeletePlace(testPlace).Wait();
 
         var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
+        System.Console.WriteLine(retrievedPlace);
         Assert.Null(retrievedPlace);
     }
 }

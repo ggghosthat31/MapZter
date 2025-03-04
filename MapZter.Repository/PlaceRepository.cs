@@ -19,30 +19,31 @@ public class PlaceRepository : RepositoryBase<Place>
 		await FindByCondition(x => placeIds.Contains(x.PlaceId), trackChanges)
 		    .ToListAsync();
 
-	public async Task<Place> GetPlaceAsync(long placeId, bool trackChanges) =>
+	public async Task<Place?> GetPlaceAsync(long placeId, bool trackChanges) =>
 		await FindByCondition(c => c.PlaceId.Equals(placeId), trackChanges)
 		    .SingleOrDefaultAsync();
 
-	public async Task<IEnumerable<Place>> GetPlacesAsync(PlaceParameters placeParameters, bool trackChanges)
-	{
-		var companies = await FindAll(trackChanges)
+	public async Task<IEnumerable<Place>> GetPlacesAsync(PlaceParameters placeParameters, bool trackChanges) =>
+		await FindAll(trackChanges)
             .FilterPlaces(placeParameters)
             .Search(placeParameters.SearchTerm)
             .Sort(placeParameters.OrderBy)
             .ToListAsync();
 
-		return companies;
-	}
-
-	public void CreatePlace(Place place)
+	public async Task CreatePlace(Place place)
 	{
 		Create(place);
-		ApplyChanges().Wait();
+		await SaveChanges();
 	}
 
-	public void DeletePlace(Place place)
+	public async Task DeletePlace(Place place)
 	{
-		Delete(place);
-		ApplyChanges().Wait();
+		var retrievedPlace = await FindByCondition(c => c.PlaceId.Equals(place.PlaceId), true).SingleOrDefaultAsync();
+
+		if (retrievedPlace != null)
+		{
+			Delete(retrievedPlace);
+			await SaveChanges();
+		}
 	}
 }

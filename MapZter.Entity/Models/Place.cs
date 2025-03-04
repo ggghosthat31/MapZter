@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace MapZter.Entity.Models;
@@ -5,6 +6,7 @@ namespace MapZter.Entity.Models;
 public record Place
 {
     [JsonProperty("place_id")]
+    [Key]
     public long PlaceId { get; set; }
 
     [JsonProperty("license")]
@@ -50,7 +52,7 @@ public record Place
     public PlaceTag PlaceTag { get; set; }
 
     [JsonProperty("boundingbox")]
-    public IEnumerable<double> BoundingBox { get; set; }
+    public double[] BoundingBox { get; set; }
 
     public GeoPoint GetGeoPoint()
     {
