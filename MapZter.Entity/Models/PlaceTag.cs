@@ -1,10 +1,12 @@
+using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace MapZter.Entity.Models;
 
 public class PlaceTag
 {
-    [JsonProperty("PlaceTagId")]
+    [Key]
+    [JsonProperty("place_tag_id")]
     public long PlaceTagId {get; set;}
     
     [JsonProperty("image")]

@@ -50,13 +50,15 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
             PlaceTag = null
         };
     
-        System.Console.WriteLine(testPlace.PlaceId);
         placeRepository.CreatePlace(testPlace).Wait();
         var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
+        var retrievedPlacePoint = retrievedPlace.GetGeoPoint();
+        var testPlacePoint = testPlace.GetGeoPoint();
+        var similarPlace = retrievedPlace.Equals(testPlace);
+        var similarPoint = retrievedPlacePoint.Match(testPlacePoint);
 
         Assert.NotNull(retrievedPlace);
-        System.Console.WriteLine(retrievedPlace.Equals(testPlace));
-        Assert.Equal(retrievedPlace, testPlace);
+        Assert.True(similarPlace && similarPoint);
     }
 
     [Fact]

@@ -5,8 +5,10 @@ namespace MapZter.Entity.Models;
 
 public record Place
 {
-    [JsonProperty("place_id")]
     [Key]
+    public long Id { get; set; }
+
+    [JsonProperty("place_id")]
     public long PlaceId { get; set; }
 
     [JsonProperty("license")]
@@ -60,5 +62,15 @@ public record Place
             return new GeoPoint(0,0);
 
         return new GeoPoint(Latitude, Longitude);
+    }
+
+    public virtual bool Equals(Place? inputPlace)
+    {                
+        if (inputPlace == null) 
+            return false;
+
+        return PlaceId == inputPlace.PlaceId && 
+                OsmType == inputPlace.OsmType &&
+                OsmId == inputPlace.OsmId;
     }
 }

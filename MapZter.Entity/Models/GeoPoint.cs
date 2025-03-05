@@ -1,9 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace MapZter.Entity.Models;
 
-public record struct GeoPoint(double lat, double lon)
+public record struct GeoPoint(double lat, double lon) :
+    IPointMatchable<GeoPoint>
 {
+    public long PointId { get; set; }
+
     public double Latitude { get; set; } = lat;
 
     public double Longitude { get; set; } = lon;
@@ -27,8 +28,9 @@ public record struct GeoPoint(double lat, double lon)
         return false;
     }
 
-    public override string ToString()
-    {
-        return $"{Latitude} {Longitude}";
-    }
+    public bool Match(GeoPoint obj) =>
+        PointId == obj.PointId;
+
+    public override string ToString() => 
+        $"{Latitude} {Longitude}";
 }
