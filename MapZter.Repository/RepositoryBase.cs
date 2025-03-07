@@ -8,25 +8,33 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<
 {
     protected RepositoryContext _repostioryContext;
 
-	public RepositoryBase(RepositoryContext repositoryContext) =>
+	public RepositoryBase(RepositoryContext repositoryContext)
+	{
 		_repostioryContext = repositoryContext;
-
+	}
+	
 	public RepositoryContext CurrentDatabaseContext => _repostioryContext;
 
-	public IQueryable<T> FindAll(bool trackChanges) =>
-		!trackChanges ?
+	public IQueryable<T> FindAll(bool trackChanges)
+	{
+		return !trackChanges ?
 			_repostioryContext.Set<T>().AsNoTracking():
 			_repostioryContext.Set<T>();
+	}
 
 	public IQueryable<T> FindByCondition(
             Expression<Func<T, bool>> expression,
-            bool trackChanges) =>
-		!trackChanges ?
+            bool trackChanges)
+	{
+		return !trackChanges ?
 			_repostioryContext.Set<T>().Where(expression).AsNoTracking():
 			_repostioryContext.Set<T>().Where(expression);
+	}
 
-	public void Create(T entity) =>
+	public void Create(T entity)
+	{
 		_repostioryContext.Set<T>().Add(entity);
+	}
 
 	public void Update(T entity, T newEntity)
 	{
@@ -34,9 +42,13 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<
 		_repostioryContext.Update(newEntity);
 	}
 
-	public void Delete(T entity) =>
+	public void Delete(T entity)
+	{
 		_repostioryContext.Set<T>().Remove(entity);
+	}
 
-	public async Task SaveChanges() =>
+	public async Task SaveChanges()
+	{
 		await _repostioryContext.SaveChangesAsync();
+	}
 }

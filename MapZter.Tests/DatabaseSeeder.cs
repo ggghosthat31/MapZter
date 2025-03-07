@@ -120,7 +120,6 @@ public static class DatabaseSeeder
 
     public static IRepositoryManager GenerateDatabaseConnection()
     {
-		//initialize repository manager with a repository context
         var repositoryContext = GenerateInMemoryRepositoryContext();
         return SeedRepositoryManager(ref repositoryContext);
     }
