@@ -1,8 +1,9 @@
-using System.Threading.Tasks;
+using MapZter.Entity.Models;
 
 namespace MapZter.Contracts.Interfaces;
 
-public interface IRepositoryManager 
+public interface IRepositoryManager
 {
-    Task SaveAsync();
+    public IEntityRepository<Place> PlaceRepository { get; }
+    public Task SaveAsync();
 }

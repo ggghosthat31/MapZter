@@ -1,5 +1,6 @@
 using MapZter.Repository;
 using MapZter.Entity.Models;
+using MapZter.Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Xunit;
@@ -8,18 +9,19 @@ namespace MapZter.Tests;
 
 public static class DatabaseSeeder
 {
-    private static PlaceRepository GeneratePlaceRepository()
+    private static RepositoryContext GenerateInMemoryRepositoryContext()
     {
         var options = new DbContextOptionsBuilder<RepositoryContext>()
             .UseInMemoryDatabase(databaseName: "RepositoryTestDatabase")
             .Options;
 
-        var context = new RepositoryContext(options);
-        return new PlaceRepository(context);
+        return new RepositoryContext(options);
     }
 
-    private static void SeedDatabse(ref PlaceRepository placeRepository)
+    private static IRepositoryManager SeedRepositoryManager(ref RepositoryContext repositoryContext)
     {
+		var repositoryManager = new RepositoryManager(repositoryContext);
+
         var testPlace1 = new Place 
         {
             PlaceId = 16281533,
@@ -49,7 +51,7 @@ public static class DatabaseSeeder
             BoundingBox = new double[] {-34.4415900, -34.4370994, -58.7086067, -58.7044712},
             PlaceTag = null
         };
-        placeRepository.CreatePlace(testPlace1);
+        repositoryManager.PlaceRepository.Create(testPlace1);
         
         var testPlace2 = new Place 
         {
@@ -80,7 +82,7 @@ public static class DatabaseSeeder
             BoundingBox = new double[] {-34.4415900, -34.4370994, -58.7086067, -58.7044712},
             PlaceTag = null
         };
-        placeRepository.CreatePlace(testPlace2);
+        repositoryManager.PlaceRepository.Create(testPlace2);
 
         var testPlace3 = new Place 
         {
@@ -111,15 +113,15 @@ public static class DatabaseSeeder
             BoundingBox = new double[] {-34.4415900, -34.4370994, -58.7086067, -58.7044712},
             PlaceTag = null
         };
-        placeRepository.CreatePlace(testPlace3);
+        repositoryManager.PlaceRepository.Create(testPlace3);
+
+		return repositoryManager;
     }
 
-    public static PlaceRepository GenerateInMemoryDatabase()
+    public static IRepositoryManager GenerateDatabaseConnection()
     {
-        //place repository
-        var placeRepository = GeneratePlaceRepository();
-        SeedDatabse(ref placeRepository);
-
-        return placeRepository;
+		//initialize repository manager with a repository context
+        var repositoryContext = GenerateInMemoryRepositoryContext();
+        return SeedRepositoryManager(ref repositoryContext);
     }
 }

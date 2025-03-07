@@ -1,9 +1,10 @@
+using MapZter.Contracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace MapZter.Repository;
 
-public abstract class RepositoryBase<T> where T : class
+public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<T> where T : class
 {
     protected RepositoryContext _repostioryContext;
 
@@ -22,15 +23,15 @@ public abstract class RepositoryBase<T> where T : class
 			_repostioryContext.Set<T>().Where(expression).AsNoTracking():
 			_repostioryContext.Set<T>().Where(expression);
 
-	protected void Create(T entity) =>
+	public void Create(T entity) =>
 		_repostioryContext.Set<T>().Add(entity);
 
-	protected void Update(T entity) =>
+	public void Update(T entity) =>
 		_repostioryContext.Set<T>().Update(entity);
 
-	protected void Delete(T entity) =>
+	public void Delete(T entity) =>
 		_repostioryContext.Set<T>().Remove(entity);
 
-	protected async Task SaveChanges() =>
+	public async Task SaveChanges() =>
 		await _repostioryContext.SaveChangesAsync();
-} 
+}

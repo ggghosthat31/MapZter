@@ -1,3 +1,4 @@
+using MapZter.Contracts.Interfaces;
 using MapZter.Repository;
 using MapZter.Entity.Models;
 using MapZter.Tests.Fixtures;
@@ -9,12 +10,12 @@ namespace MapZter.Tests;
 
 public class RepositoryTest : IClassFixture<RepositoryFixture>
 {
-    private readonly PlaceRepository placeRepository;
+    private IRepositoryManager _repositoryManager;
+    private PlaceRepository placeRepository => _repositoryManager.PlaceRepository as PlaceRepository;
 
     public RepositoryTest(RepositoryFixture repositoryFixture)
     {
-        // placeRepository = DatabaseSeeder.GenerateInMemoryDatabase();
-        placeRepository = repositoryFixture.PlaceRepository;
+        _repositoryManager = DatabaseSeeder.GenerateDatabaseConnection();
     }
 
     [Fact]
@@ -50,7 +51,7 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
             PlaceTag = null
         };
     
-        placeRepository.CreatePlace(testPlace).Wait();
+        placeRepository.Create(testPlace).Wait();
         var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
         var retrievedPlacePoint = retrievedPlace.GetGeoPoint();
         var testPlacePoint = testPlace.GetGeoPoint();
@@ -94,7 +95,7 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
             PlaceTag = null
         };
         
-        placeRepository.DeletePlace(testPlace).Wait();
+        placeRepository.Delete(testPlace).Wait();
 
         var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
         System.Console.WriteLine(retrievedPlace);

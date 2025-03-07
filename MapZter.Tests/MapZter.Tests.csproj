@@ -33,5 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MapZter.Repository\MapZter.Repository.csproj" />
+    <ProjectReference Include="..\MapZter.Contracts\MapZter.Contracts.csproj" />
   </ItemGroup>
 </Project>

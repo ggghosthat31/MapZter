@@ -30,19 +30,19 @@ public class PlaceRepository : RepositoryBase<Place>
             .Sort(placeParameters.OrderBy)
             .ToListAsync();
 
-	public async Task CreatePlace(Place place)
+	public async Task Create(Place place)
 	{
-		Create(place);
+		base.Create(place);
 		await SaveChanges();
 	}
 
-	public async Task DeletePlace(Place place)
+	public async Task Delete(Place place)
 	{
 		var retrievedPlace = await FindByCondition(c => c.PlaceId.Equals(place.PlaceId), true).SingleOrDefaultAsync();
 
 		if (retrievedPlace != null)
 		{
-			Delete(retrievedPlace);
+			base.Delete(retrievedPlace);
 			await SaveChanges();
 		}
 	}

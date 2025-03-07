@@ -51,7 +51,7 @@ public static class ServiceExtensions
     }
 
 	public static void ConfigureRepositoryManager(this IServiceCollection services) =>
-		services.AddScoped<IRepositoryManager, RepostioryManager>();
+		services.AddScoped<IRepositoryManager, RepositoryManager>();
 
     public static void ConfigureResponseCaching(this IServiceCollection services) =>
         services.AddResponseCaching();
