@@ -11,6 +11,8 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<
 	public RepositoryBase(RepositoryContext repositoryContext) =>
 		_repostioryContext = repositoryContext;
 
+	public RepositoryContext CurrentDatabaseContext => _repostioryContext;
+
 	public IQueryable<T> FindAll(bool trackChanges) =>
 		!trackChanges ?
 			_repostioryContext.Set<T>().AsNoTracking():
@@ -26,8 +28,11 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<
 	public void Create(T entity) =>
 		_repostioryContext.Set<T>().Add(entity);
 
-	public void Update(T entity) =>
-		_repostioryContext.Set<T>().Update(entity);
+	public void Update(T entity, T newEntity)
+	{
+		_repostioryContext.Entry(entity).State = EntityState.Detached;
+		_repostioryContext.Update(newEntity);
+	}
 
 	public void Delete(T entity) =>
 		_repostioryContext.Set<T>().Remove(entity);

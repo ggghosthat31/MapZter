@@ -36,6 +36,12 @@ public class PlaceRepository : RepositoryBase<Place>
 		await SaveChanges();
 	}
 
+	public async Task Update(Place place, Place updatePlace)
+	{
+		base.Update(place, updatePlace);
+		await SaveChanges();
+	}
+
 	public async Task Delete(Place place)
 	{
 		var retrievedPlace = await FindByCondition(c => c.PlaceId.Equals(place.PlaceId), true).SingleOrDefaultAsync();

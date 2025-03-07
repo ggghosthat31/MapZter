@@ -70,7 +70,7 @@ public record Place
             return false;
 
         return PlaceId == inputPlace.PlaceId && 
-                OsmType == inputPlace.OsmType &&
-                OsmId == inputPlace.OsmId;
+            OsmType == inputPlace.OsmType &&
+            OsmId == inputPlace.OsmId;
     }
 }
