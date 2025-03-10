@@ -1,4 +1,4 @@
-using MapZter.Contracts.Interfaces;
+using MapZter.Contracts.Interfaces.Logger;
 
 using NLog;
 

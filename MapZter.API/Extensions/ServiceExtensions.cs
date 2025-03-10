@@ -1,5 +1,6 @@
 using MapZter.API.Triggers;
-using MapZter.Contracts.Interfaces;
+using MapZter.Contracts.Interfaces.Repository;
+using MapZter.Contracts.Interfaces.Logger;
 using MapZter.Logger;
 using MapZter.Repository;
 using Microsoft.EntityFrameworkCore;

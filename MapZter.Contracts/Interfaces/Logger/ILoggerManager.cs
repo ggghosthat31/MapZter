@@ -1,4 +1,4 @@
-namespace MapZter.Contracts.Interfaces;
+namespace MapZter.Contracts.Interfaces.Logger;
 
 public interface ILoggerManager 
 {

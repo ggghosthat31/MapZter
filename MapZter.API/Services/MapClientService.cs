@@ -1,11 +1,12 @@
-using MapZter.Contracts.Interfaces;
+using MapZter.Contracts.Interfaces.Logger;
+using MapZter.Contracts.Interfaces.Services;
 using MapZter.Entity.Models;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace MapZter.API.Services;
 
-public sealed class MapClientService
+public sealed class MapClientService : IMapService
 {
     private readonly string _mapFilePath;
     private readonly HttpClient _httpClient;
@@ -37,6 +38,15 @@ public sealed class MapClientService
         }
 
         return content;
+    }
+
+    //server status
+    public async Task<string> GetServerStatus()
+    {
+        string url = $"https://nominatim.openstreetmap.org/status";
+        var response = await _httpClient.GetAsync(url);
+        var data =  await response.Content.ReadAsStringAsync();
+        return data;
     }
 
     //geocoding
@@ -74,15 +84,6 @@ public sealed class MapClientService
         var response = await _httpClient.GetAsync(url);
         var data =  await response.Content.ReadAsStringAsync();
         return null;
-    }
-
-    //server status
-    public async Task<string> GetServerStatus()
-    {
-        string url = $"https://nominatim.openstreetmap.org/status";
-        var response = await _httpClient.GetAsync(url);
-        var data =  await response.Content.ReadAsStringAsync();
-        return data;
     }
     
     public void Dispose() => _httpClient.Dispose();

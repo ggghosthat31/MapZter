@@ -1,6 +1,6 @@
 using MapZter.Entity.Models;
 
-namespace MapZter.Contracts.Interfaces;
+namespace MapZter.Contracts.Interfaces.Repository;
 
 public interface IRepositoryManager
 {
