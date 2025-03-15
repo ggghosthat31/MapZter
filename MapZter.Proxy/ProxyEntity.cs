@@ -1,6 +1,6 @@
-namespace MapZter.Contracts.Interfaces.Proxy;
+namespace MapZter.Contracts.Interfaces.RepositoryProxy;
 
-public record ProxyEntity(
+public record RepositoryProxyEntity(
     RepositoryPattern RepositoryPattern,
     Func<bool> RepositoryPredicate,
-    Func<IProxyInputEntity,bool> ExecutionExpression);
+    Func<IInputEntity,bool> ExecutionExpression);

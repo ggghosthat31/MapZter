@@ -4,7 +4,7 @@ using MapZter.Entity.Models;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace MapZter.API.Services;
+namespace MapZter.API.Services.Entity;
 
 public sealed class MapClientService : IMapService
 {

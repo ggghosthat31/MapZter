@@ -1,4 +1,5 @@
 using MapZter.Contracts.Interfaces;
+using MapZter.Contracts.Interfaces.Repository;
 using MapZter.Repository;
 using MapZter.Entity.Models;
 using MapZter.Tests.Fixtures;
