@@ -57,8 +57,18 @@ public static class ServiceExtensions
     public static void ConfigureResponseCaching(this IServiceCollection services) =>
         services.AddResponseCaching();
 
-    public static void ConfigureApplication(this IServiceCollection services) =>
+    public static void RegisterHostedService<T>(this IServiceCollection services, IEnumerable<T> backgroundServices) where T : IHostedService =>
+        services.RegisterHostedService<T>(backgroundServices);
+    
+    public static void ConfigureApplication(this IServiceCollection services)
+    {
+        //register MediatR
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+        //register entity mapper
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies() );
+
+    }
 
     public static void ConfigureSwagger(this IServiceCollection services)
     {
