@@ -25,23 +25,17 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<
 			_repostioryContext.Set<T>().Where(expression).AsNoTracking():
 			_repostioryContext.Set<T>().Where(expression);
 
-	public void Create(T entity)
-	{
+	public void Create(T entity) =>
 		_repostioryContext.Set<T>().Add(entity);
-	}
 
 	public void Update(T newEntity)
 	{
 		return; //entity update strategy depends on entity repository implementation
 	}
 
-	public void Delete(T entity)
-	{
+	public void Delete(T entity) =>
 		_repostioryContext.Set<T>().Remove(entity);
-	}
 
-	public async Task SaveChanges()
-	{
+	public async Task SaveChanges() =>
 		await _repostioryContext.SaveChangesAsync();
-	}
 }
