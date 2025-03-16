@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MapZter.Proxy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9cb778b87520bfcfc4090a044a6a2cb021c9b66b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+576027e00ac79bfd2e0ee81e6651a207acb324e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("MapZter.Proxy")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MapZter.Proxy")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

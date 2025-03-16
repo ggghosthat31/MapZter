@@ -137,7 +137,7 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
         };
         
         var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
-        placeRepository.Update(retrievedPlace, testPlace).Wait();
+        placeRepository.Update(testPlace).Wait();
 
         var retrievedPlace2 = placeRepository.FindByCondition( placeRepository => placeRepository.PlaceId.Equals(testPlace.PlaceId), true);
 

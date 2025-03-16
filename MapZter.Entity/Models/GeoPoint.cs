@@ -3,7 +3,7 @@ namespace MapZter.Entity.Models;
 public record struct GeoPoint(double lat, double lon) :
     IPointMatchable<GeoPoint>
 {
-    public long PointId { get; set; }
+    public long Id { get; set; }
 
     public double Latitude { get; set; } = lat;
 
@@ -29,7 +29,7 @@ public record struct GeoPoint(double lat, double lon) :
     }
 
     public bool Match(GeoPoint obj) =>
-        PointId == obj.PointId;
+        Id == obj.Id;
 
     public override string ToString() => 
         $"{Latitude} {Longitude}";

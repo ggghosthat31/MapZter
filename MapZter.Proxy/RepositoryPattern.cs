@@ -4,5 +4,8 @@ public enum RepositoryPattern
 {
     CREATE,
     UPDATE,
-    DELETE
+    DELETE,
+    GET_SINGLE,
+    GET_MULTIPLE_BY_ID,
+    GET_MULTIPLE_BY_CONDITION
 }

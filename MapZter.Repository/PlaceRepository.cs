@@ -44,9 +44,14 @@ public class PlaceRepository : RepositoryBase<Place>
 		await SaveChanges();
 	}
 
-	public async Task Update(Place place, Place updatePlace)
+	public async Task Update(Place updatePlace)
 	{
-		base.Update(place, updatePlace);
+		var existingPlace = await _repostioryContext.Places.FindAsync(updatePlace.Id);
+
+        if (existingPlace == null)
+            return;
+
+        _repostioryContext.Entry(existingPlace).CurrentValues.SetValues(updatePlace);
 		await SaveChanges();
 	}
 

@@ -7,12 +7,12 @@ public class RepositoryProxy : IRepositoryProxy
     public RepositoryProxy()
     {}
 
-    public void SetRepositoryPattern(RepositoryPattern repositoryPattern, RepositoryProxyEntity proxyEntity)
+    public void SetRepositoryPattern(RepositoryProxyEntity proxyEntity)
     {
-        if (_repositoryPatterns.ContainsKey(repositoryPattern))
-            _repositoryPatterns.Remove(repositoryPattern);
+        if (_repositoryPatterns.ContainsKey(proxyEntity.RepositoryPattern))
+            _repositoryPatterns.Remove(proxyEntity.RepositoryPattern);
 
-        _repositoryPatterns.Add(repositoryPattern, proxyEntity);
+        _repositoryPatterns.Add(proxyEntity.RepositoryPattern, proxyEntity);
     }
 
     public bool Execute(RepositoryPattern repositoryPattern, IInputEntity proxyInputEntity)
