@@ -27,7 +27,7 @@ public class ServiceConfigure
 
     public void UpdatePlace(Place inputEntity)
     {
-        // _repositoryManager.PlaceRepository.Update(inputEntity);
+        _repositoryManager.PlaceRepository.Update(inputEntity);
     }
 
 

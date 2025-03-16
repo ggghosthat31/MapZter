@@ -30,10 +30,9 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<
 		_repostioryContext.Set<T>().Add(entity);
 	}
 
-	public void Update(T entity, T newEntity)
+	public void Update(T newEntity)
 	{
-		_repostioryContext.Entry(entity).State = EntityState.Detached;
-		_repostioryContext.Update(newEntity);
+		return; //entity update strategy depends on entity repository implementation
 	}
 
 	public void Delete(T entity)
