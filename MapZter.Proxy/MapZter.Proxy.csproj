@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MapZter.Contracts\MapZter.Contracts.csproj" />
+    <ProjectReference Include="..\MapZter.Repository\MapZter.Repository.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

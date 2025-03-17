@@ -1,6 +1,6 @@
 namespace MapZter.Entity.Models;
 
-public struct Address
+public struct Address : IEntity
 {
     public string Road { get; set; }
 

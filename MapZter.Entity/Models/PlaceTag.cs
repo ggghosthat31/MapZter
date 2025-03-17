@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace MapZter.Entity.Models;
 
-public class PlaceTag
+public class PlaceTag : IEntity
 {
     [Key]
     public long Id { get; set; }

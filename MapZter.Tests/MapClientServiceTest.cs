@@ -49,7 +49,7 @@ public class MapClientServiceTest
         var resp = _mapService.ReverseGeocode(geoPoint).Result;
         var retrieved = resp.GetGeoPoint();
         Assert.IsType<Place>(resp);
-        Assert.Equal(retrieved, geoPoint);
+        Assert.True(retrieved.Equals(geoPoint));
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class MapClientServiceTest
         var actual = new GeoPoint(lat, lon);
         var resp = _mapService.ReverseGeocode(lat, lon).Result;
         var retrieved = resp.GetGeoPoint();
-        Assert.Equal(retrieved, actual);
+        Assert.True(retrieved.Equals(actual));
     }
 
     [Fact]

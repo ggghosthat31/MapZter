@@ -7,61 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 using System.Reflection;
-using MapZter.Contracts.Interfaces.RepositoryProxy;
-using MapZter.Entity.Models;
 
 namespace MapZter.API.Extensions;
-
-public class ServiceConfigure
-{
-    public readonly RepositoryManager _repositoryManager;
-    public ServiceConfigure(RepositoryManager repositoryManager)
-    {
-        _repositoryManager = repositoryManager;
-    }
-
-    public void CreatePlace(Place inputEntity)
-    {
-        _repositoryManager.PlaceRepository.Create(inputEntity);
-    }
-
-    public void UpdatePlace(Place inputEntity)
-    {
-        _repositoryManager.PlaceRepository.Update(inputEntity);
-    }
-
-
-
-    public static void ConfigureRepositoryStrategy()
-    {
-        //Entity : Place | Address | GeoPoint | GeoTag 
-        //Create
-        //Delete
-        //Update
-        //GetOne
-        //GetSetById
-        //GetSetByCondition
-
-        // bool createPlaceStrategy = entity => 
-        // {
-
-        //     return true;
-        // };
-
-        var deleteStrategy = "";
-        var updateStrategy = "";
-
-        var getPlaceById = "";
-        var getPlacesByIds = "";
-        var getAddressById = "";
-        var getAddressesByIds = "";
-        var getGeoPointById = "";
-        var getGeoPointsByIds = "";
-        var getGeoTagById = "";
-        var getGeoTagsByIds = ""; 
-        // by id, by condition
-    }
-} 
 
 public static class ServiceExtensions
 {

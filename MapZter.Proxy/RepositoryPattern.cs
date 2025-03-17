@@ -1,6 +1,6 @@
-namespace MapZter.Contracts.Interfaces;
+namespace MapZter.Proxy;
 
-public enum RepositoryPattern
+public enum RepositoryMutePattern 
 {
     CREATE,
     UPDATE,

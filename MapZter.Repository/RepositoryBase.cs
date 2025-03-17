@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace MapZter.Repository;
 
-public abstract class RepositoryBase<T> : IRepositoryBase<T>, IEntityRepository<T> where T : class
+public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
     protected RepositoryContext _repostioryContext;
 

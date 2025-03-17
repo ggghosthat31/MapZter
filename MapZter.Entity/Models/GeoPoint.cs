@@ -1,7 +1,6 @@
 namespace MapZter.Entity.Models;
 
-public record struct GeoPoint(double lat, double lon) :
-    IPointMatchable<GeoPoint>
+public struct GeoPoint(double lat, double lon) : IEntity, IPointMatchable<GeoPoint>
 {
     public long Id { get; set; }
 

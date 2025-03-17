@@ -14,13 +14,9 @@ public class PlaceRepository : RepositoryBase<Place>
 		await FindAll(trackChanges).OrderBy(c => c.PlaceId)
 		    .ToListAsync();
 
-	public async Task<IEnumerable<Place>> GetByIdsAsync(IEnumerable<long> placeIds, bool trackChanges) =>
+	public async Task<IEnumerable<Place>> GetPlacesAsync(IEnumerable<long> placeIds, bool trackChanges) =>
 		await FindByCondition(x => placeIds.Contains(x.PlaceId), trackChanges)
 		    .ToListAsync();
-
-	public async Task<Place?> GetPlaceAsync(long placeId, bool trackChanges) =>
-		await FindByCondition(c => c.PlaceId.Equals(placeId), trackChanges)
-		    .SingleOrDefaultAsync();
 
 	public async Task<IEnumerable<Place>> GetPlacesAsync(PlaceParameters placeParameters, bool trackChanges) =>
 		await FindAll(trackChanges)
@@ -28,6 +24,10 @@ public class PlaceRepository : RepositoryBase<Place>
             .Search(placeParameters.SearchTerm)
             .Sort(placeParameters.OrderBy)
             .ToListAsync();
+
+	public async Task<Place?> GetPlaceAsync(long placeId, bool trackChanges) =>
+		await FindByCondition(c => c.PlaceId.Equals(placeId), trackChanges)
+		    .SingleOrDefaultAsync();
 
 	public async Task Create(Place place)
 	{

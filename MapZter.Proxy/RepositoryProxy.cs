@@ -1,42 +1,45 @@
-namespace MapZter.Contracts.Interfaces.RepositoryProxy;
+using MapZter.Contracts.Interfaces.Repository;
+using MapZter.Contracts.Interfaces.RepositoryProxy;
+using MapZter.Entity.Models;
+using MapZter.Repository;
+
+namespace MapZter.Proxy;
 
 public class RepositoryProxy : IRepositoryProxy
 {
-    private readonly Dictionary<RepositoryPattern, RepositoryProxyEntity> _repositoryPatterns = [];
+    public readonly IRepositoryManager _repositoryManager;
 
-    public RepositoryProxy()
-    {}
-
-    public void SetRepositoryPattern(RepositoryProxyEntity proxyEntity)
+    public RepositoryProxy(IRepositoryManager repositoryManager) =>
+        _repositoryManager = repositoryManager;
+    
+    private async Task<bool> Process(RepositoryMutePattern pattern, IEntity inputPlace)
     {
-        if (_repositoryPatterns.ContainsKey(proxyEntity.RepositoryPattern))
-            _repositoryPatterns.Remove(proxyEntity.RepositoryPattern);
+        try
+        {
+            var place = inputPlace as Place ?? throw new NullReferenceException("Input parameters is not <Place> type.");;
+            var repository = _repositoryManager.PlaceRepository as PlaceRepository;
 
-        _repositoryPatterns.Add(proxyEntity.RepositoryPattern, proxyEntity);
+            var performedTask = pattern switch
+            {
+                RepositoryMutePattern.CREATE => repository.Create(place),
+                RepositoryMutePattern.UPDATE => repository.Update(place),
+                RepositoryMutePattern.DELETE => repository.Delete(place),
+            } ?? throw new NullReferenceException("Could not detect prefered repository pattern.");
+
+            await performedTask;
+
+            return performedTask.IsCompletedSuccessfully ? true : throw performedTask.Exception;
+        }
+        catch (Exception ex)
+        {
+            //TODO: add logger
+            return false;
+        }
     }
 
-    public bool Execute(RepositoryPattern repositoryPattern, IInputEntity proxyInputEntity)
-    {
-        var proxyEntity = _repositoryPatterns[repositoryPattern];
+    public bool Execute(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
+        Process(repositoryPattern, proxyInputEntity).Result;
 
-        if (proxyEntity.RepositoryPredicate())
-            return proxyEntity.ExecutionExpression(proxyInputEntity);
-
-        return false;
-    }
-
-    public Task<bool> ExecuteAsync(RepositoryPattern repositoryPattern, IInputEntity proxyInputEntity)
-    {
-        var proxyEntity = _repositoryPatterns[repositoryPattern];
-
-        if (proxyEntity.RepositoryPredicate())
-            return Task.FromResult<bool>(proxyEntity.ExecutionExpression(proxyInputEntity));
-
-        return Task.FromResult<bool>(false);
-    }
-
-    public void Dispose()
-    {
-        _repositoryPatterns.Clear();
-    }
+    public async Task<bool> ExecuteAsync(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
+        await Process(repositoryPattern, proxyInputEntity);
 }
