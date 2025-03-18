@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 using System.Reflection;
+using MapZter.Contracts.Interfaces.RepositoryProxy;
+using MapZter.Proxy;
 
 namespace MapZter.API.Extensions;
 
@@ -48,6 +50,9 @@ public static class ServiceExtensions
 
 	public static void ConfigureRepositoryManager(this IServiceCollection services) =>
 		services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+    public static void ConfigureRepositoryProxy(this IServiceCollection services) =>
+        services.AddScoped<IRepositoryProxy, RepositoryProxy>();
 
     public static void ConfigureResponseCaching(this IServiceCollection services) =>
         services.AddResponseCaching();

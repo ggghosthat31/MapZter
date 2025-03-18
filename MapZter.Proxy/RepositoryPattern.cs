@@ -7,5 +7,6 @@ public enum RepositoryMutePattern
     DELETE,
     GET_SINGLE,
     GET_MULTIPLE_BY_ID,
-    GET_MULTIPLE_BY_CONDITION
+    GET_MULTIPLE_BY_CONDITION,
+    GET_ALL
 }
