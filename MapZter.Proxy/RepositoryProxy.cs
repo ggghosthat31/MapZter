@@ -4,7 +4,6 @@ using MapZter.Contracts.Interfaces.RepositoryProxy;
 using MapZter.Entities.RequestFeatures;
 using MapZter.Entity.Models;
 using MapZter.Repository;
-using Microsoft.Extensions.Logging;
 
 namespace MapZter.Proxy;
 
@@ -100,6 +99,11 @@ public class RepositoryProxy : IRepositoryProxy
         else if (repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
             return await RecievePlaces(repositoryPattern, proxyInputParameters);
         else return default;
+    }
+
+    public object? Execute(RepositoryMutePattern repositoryPattern, ProxyObserveParameters proxyObserveParameters)
+    {
+        return Process(repositoryPattern, proxyObserveParameters).Result;
     }
 
     public bool Execute(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity)
