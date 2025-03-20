@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapZter.Logger", "MapZter.L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapZter.Proxy", "MapZter.Proxy\MapZter.Proxy.csproj", "{F96C64CC-3E78-400F-B080-49E0B0C24FD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapZter.Tests", "MapZter.Tests\MapZter.Tests.csproj", "{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,18 @@ Global
 		{F96C64CC-3E78-400F-B080-49E0B0C24FD0}.Release|x64.Build.0 = Release|Any CPU
 		{F96C64CC-3E78-400F-B080-49E0B0C24FD0}.Release|x86.ActiveCfg = Release|Any CPU
 		{F96C64CC-3E78-400F-B080-49E0B0C24FD0}.Release|x86.Build.0 = Release|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Debug|x64.Build.0 = Debug|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Debug|x86.Build.0 = Debug|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Release|x64.ActiveCfg = Release|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Release|x64.Build.0 = Release|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Release|x86.ActiveCfg = Release|Any CPU
+		{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

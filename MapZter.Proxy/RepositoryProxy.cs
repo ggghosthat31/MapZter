@@ -20,7 +20,7 @@ public class RepositoryProxy : IRepositoryProxy
         _loggerManager = loggerManager;
     }
 
-    private async Task<bool> Mute(RepositoryMutePattern pattern, IEntity inputEntity)
+    private async Task<bool> Manage(RepositoryMutePattern pattern, IEntity inputEntity)
     {
         try
         {
@@ -31,7 +31,7 @@ public class RepositoryProxy : IRepositoryProxy
                 {
                     RepositoryMutePattern.CREATE => repository.Create(place),
                     RepositoryMutePattern.UPDATE => repository.Update(place),
-                    RepositoryMutePattern.DELETE => repository.Delete(place),
+                    RepositoryMutePattern.DELETE => repository.Delete(place.PlaceId),
                 } ?? throw new NullReferenceException("Could not detect prefered repository pattern.");
 
                 await performedTask;
@@ -54,7 +54,7 @@ public class RepositoryProxy : IRepositoryProxy
         {
             var repositoryInstance = _repositoryManager.PlaceRepository;
             if (repositoryInstance is PlaceRepository repository)
-                return await repository.GetPlaceAsync(placeId, false);
+                return await repository.GetPlaceAsync(placeId);
             else 
                 throw new ArgumentException($"Input arguments does not match the desired signature. Repostitory type: {repositoryInstance.GetType().FullName}.");
         }
@@ -75,9 +75,9 @@ public class RepositoryProxy : IRepositoryProxy
             {
                 var performedTask = pattern switch
                 {
-                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => repository.GetPlacesAsync(proxyObserveParameters.PlaceIds, false),
-                    RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION => repository.GetPlacesAsync(parameters, false),
-                    RepositoryMutePattern.GET_ALL => repository.GetAllPlacesAsync(false),
+                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => repository.GetPlacesAsync(proxyObserveParameters.PlaceIds),
+                    RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION => repository.GetPlacesAsync(parameters),
+                    RepositoryMutePattern.GET_ALL => repository.GetAllPlacesAsync(),
                 } ?? throw new NullReferenceException("Could not detect prefered repository pattern.");
                 
                 return await performedTask;
@@ -101,22 +101,13 @@ public class RepositoryProxy : IRepositoryProxy
         else return default;
     }
 
-    public object? Execute(RepositoryMutePattern repositoryPattern, ProxyObserveParameters proxyObserveParameters)
-    {
-        return Process(repositoryPattern, proxyObserveParameters).Result;
-    }
+    public bool Execute(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
+        (repositoryPattern is (RepositoryMutePattern.CREATE | RepositoryMutePattern.UPDATE | RepositoryMutePattern.DELETE)) ?
+            Manage(repositoryPattern, proxyInputEntity).Result :  false;
 
-    public bool Execute(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity)
-    {
-        if (repositoryPattern is (RepositoryMutePattern.CREATE | RepositoryMutePattern.UPDATE | RepositoryMutePattern.DELETE))
-            return Mute(repositoryPattern, proxyInputEntity).Result;
-        else return false;
-    }
+    public object? Execute(RepositoryMutePattern repositoryPattern, ProxyObserveParameters proxyObserveParameters) =>
+        Process(repositoryPattern, proxyObserveParameters).Result;
 
-    public async Task<bool> ExecuteAsync(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity)
-    {
-        if (repositoryPattern is (RepositoryMutePattern.CREATE | RepositoryMutePattern.UPDATE | RepositoryMutePattern.DELETE))
-            return await Mute(repositoryPattern, proxyInputEntity);
-        else return false;
-    }    
+    public async Task<object?> ExecuteAsync(RepositoryMutePattern repositoryPattern, ProxyObserveParameters proxyObserveParameters) =>
+        await Process(repositoryPattern, proxyObserveParameters);
 }

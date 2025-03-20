@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\repos\\MapZter\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}|MapZter.Tests\\MapZter.Tests.csproj|d:\\repos\\mapzter\\mapzter.tests\\repositoryproxytest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}|MapZter.Tests\\MapZter.Tests.csproj|solutionrelative:mapzter.tests\\repositoryproxytest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CA5E4D7-2145-4D2A-A66B-118E3B39A7C2}|MapZter.Repository\\MapZter.Repository.csproj|d:\\repos\\mapzter\\mapzter.repository\\placerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3CA5E4D7-2145-4D2A-A66B-118E3B39A7C2}|MapZter.Repository\\MapZter.Repository.csproj|solutionrelative:mapzter.repository\\placerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}|MapZter.Tests\\MapZter.Tests.csproj|d:\\repos\\mapzter\\mapzter.tests\\databaseseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}|MapZter.Tests\\MapZter.Tests.csproj|solutionrelative:mapzter.tests\\databaseseeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}|MapZter.Tests\\MapZter.Tests.csproj|d:\\repos\\mapzter\\mapzter.tests\\mapclientservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4F8A887C-7ECF-4F23-B4CA-B90F98FE6F00}|MapZter.Tests\\MapZter.Tests.csproj|solutionrelative:mapzter.tests\\mapclientservicetest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +26,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DatabaseSeeder.cs",
+              "DocumentMoniker": "D:\\repos\\MapZter\\MapZter.Tests\\DatabaseSeeder.cs",
+              "RelativeDocumentMoniker": "MapZter.Tests\\DatabaseSeeder.cs",
+              "ToolTip": "D:\\repos\\MapZter\\MapZter.Tests\\DatabaseSeeder.cs",
+              "RelativeToolTip": "MapZter.Tests\\DatabaseSeeder.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwFQAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T18:48:30.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlaceRepository.cs",
+              "DocumentMoniker": "D:\\repos\\MapZter\\MapZter.Repository\\PlaceRepository.cs",
+              "RelativeDocumentMoniker": "MapZter.Repository\\PlaceRepository.cs",
+              "ToolTip": "D:\\repos\\MapZter\\MapZter.Repository\\PlaceRepository.cs",
+              "RelativeToolTip": "MapZter.Repository\\PlaceRepository.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAewCAAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T18:36:52.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MapClientServiceTest.cs",
+              "DocumentMoniker": "D:\\repos\\MapZter\\MapZter.Tests\\MapClientServiceTest.cs",
+              "RelativeDocumentMoniker": "MapZter.Tests\\MapClientServiceTest.cs",
+              "ToolTip": "D:\\repos\\MapZter\\MapZter.Tests\\MapClientServiceTest.cs",
+              "RelativeToolTip": "MapZter.Tests\\MapClientServiceTest.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAewB4AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T18:35:11.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RepositoryProxyTest.cs",
+              "DocumentMoniker": "D:\\repos\\MapZter\\MapZter.Tests\\RepositoryProxyTest.cs",
+              "RelativeDocumentMoniker": "MapZter.Tests\\RepositoryProxyTest.cs",
+              "ToolTip": "D:\\repos\\MapZter\\MapZter.Tests\\RepositoryProxyTest.cs",
+              "RelativeToolTip": "MapZter.Tests\\RepositoryProxyTest.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAIwG8AAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-19T18:21:21.6Z",
+              "EditorCaption": ""
             }
           ]
         }

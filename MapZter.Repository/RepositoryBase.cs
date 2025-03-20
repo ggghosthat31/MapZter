@@ -15,12 +15,12 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 	
 	public RepositoryContext CurrentDatabaseContext => _repostioryContext;
 
-	public IQueryable<T> FindAll(bool trackChanges) =>
+	public IQueryable<T> FindAll(bool trackChanges = true) =>
 		!trackChanges ?
 			_repostioryContext.Set<T>().AsNoTracking():
 			_repostioryContext.Set<T>();
 
-	public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges) =>
+	public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) =>
 		!trackChanges ?
 			_repostioryContext.Set<T>().Where(expression).AsNoTracking():
 			_repostioryContext.Set<T>().Where(expression);
@@ -28,10 +28,9 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 	public void Create(T entity) =>
 		_repostioryContext.Set<T>().Add(entity);
 
+	//entity update strategy depends on entity repository implementation
 	public void Update(T newEntity)
-	{
-		return; //entity update strategy depends on entity repository implementation
-	}
+	{}
 
 	public void Delete(T entity) =>
 		_repostioryContext.Set<T>().Remove(entity);

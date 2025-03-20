@@ -10,24 +10,24 @@ public class PlaceRepository : RepositoryBase<Place>
     public PlaceRepository(RepositoryContext repositoryContext) : base(repositoryContext)
 	{}
 
-	public async Task<IEnumerable<Place>> GetAllPlacesAsync(bool trackChanges) =>
-		await FindAll(trackChanges).OrderBy(c => c.PlaceId)
+	public async Task<IEnumerable<Place>> GetAllPlacesAsync() =>
+		await FindAll().OrderBy(c => c.PlaceId)
 		    .ToListAsync();
 
-	public async Task<IEnumerable<Place>> GetPlacesAsync(IEnumerable<long> placeIds, bool trackChanges) =>
-		await FindByCondition(x => placeIds.Contains(x.PlaceId), trackChanges)
+	public async Task<Place?> GetPlaceAsync(long placeId) =>
+		await FindByCondition(x => x.PlaceId == placeId)
+		    .SingleOrDefaultAsync();
+
+	public async Task<IEnumerable<Place>> GetPlacesAsync(IEnumerable<long> placeIds) =>
+		await FindByCondition(x => placeIds.Contains(x.PlaceId))
 		    .ToListAsync();
 
-	public async Task<IEnumerable<Place>> GetPlacesAsync(PlaceParameters placeParameters, bool trackChanges) =>
-		await FindAll(trackChanges)
+	public async Task<IEnumerable<Place>> GetPlacesAsync(PlaceParameters placeParameters) =>
+		await FindAll()
             .FilterPlaces(placeParameters)
             .Search(placeParameters.SearchTerm)
             .Sort(placeParameters.OrderBy)
             .ToListAsync();
-
-	public async Task<Place?> GetPlaceAsync(long placeId, bool trackChanges) =>
-		await FindByCondition(c => c.PlaceId.Equals(placeId), trackChanges)
-		    .SingleOrDefaultAsync();
 
 	public async Task Create(Place place)
 	{
@@ -37,7 +37,7 @@ public class PlaceRepository : RepositoryBase<Place>
 
 	public async Task Update(Place updatePlace)
 	{
-		var existingPlace = await _repostioryContext.Places.FindAsync(updatePlace.Id);
+		var existingPlace = await _repostioryContext.Places.FindAsync(updatePlace.PlaceId);
 
         if (existingPlace == null)
             return;
@@ -46,14 +46,14 @@ public class PlaceRepository : RepositoryBase<Place>
 		await SaveChanges();
 	}
 
-	public async Task Delete(Place place)
+	public async Task Delete(long placeId)
 	{
-		var retrievedPlace = await FindByCondition(c => c.PlaceId.Equals(place.PlaceId), true).SingleOrDefaultAsync();
+		var existingPlace = await _repostioryContext.Places.FindAsync(placeId);
 
-		if (retrievedPlace != null)
-		{
-			base.Delete(retrievedPlace);
-			await SaveChanges();
-		}
+        if (existingPlace == null)
+            return;
+
+		base.Delete(existingPlace);
+		await SaveChanges();
 	}
 }

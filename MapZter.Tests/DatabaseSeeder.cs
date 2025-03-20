@@ -1,10 +1,7 @@
-using MapZter.Repository;
-using MapZter.Entity.Models;
-using MapZter.Contracts.Interfaces;
 using MapZter.Contracts.Interfaces.Repository;
+using MapZter.Entity.Models;
+using MapZter.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace MapZter.Tests;
 

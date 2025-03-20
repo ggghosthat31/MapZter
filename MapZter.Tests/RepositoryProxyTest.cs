@@ -9,14 +9,14 @@ using Xunit;
 
 namespace MapZter.Tests;
 
-public class RepositoryTest : IClassFixture<RepositoryFixture>
+public class RepositoryProxyTest : IClassFixture<RepositoryFixture>
 {
     private IRepositoryManager _repositoryManager;
     private PlaceRepository placeRepository => _repositoryManager.PlaceRepository as PlaceRepository;
 
-    public RepositoryTest(RepositoryFixture repositoryFixture)
+    public RepositoryProxyTest(RepositoryFixture repositoryFixture)
     {
-        _repositoryManager = DatabaseSeeder.GenerateDatabaseConnection();
+        _repositoryManager = repositoryFixture.RepositoryManager;
     }
 
     [Fact]
@@ -53,9 +53,11 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
         };
     
         placeRepository.Create(testPlace).Wait();
-        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
+        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId).Result;
+        
         var retrievedPlacePoint = retrievedPlace.GetGeoPoint();
         var testPlacePoint = testPlace.GetGeoPoint();
+
         var similarPlace = retrievedPlace.Equals(testPlace);
         var similarPoint = retrievedPlacePoint.Match(testPlacePoint);
 
@@ -96,30 +98,32 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
             PlaceTag = null
         };
         
-        placeRepository.Delete(testPlace).Wait();
+        if (testPlace == null)
+            return;
 
-        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
-        System.Console.WriteLine(retrievedPlace);
-        Assert.Null(retrievedPlace);
+        placeRepository.Delete(testPlace.PlaceId).Wait();
+
+        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId).Result;
+        Assert.True(retrievedPlace == null);
     }
 
     [Fact]
     public void UpdatePlace_Test()
     {
-        var testPlace = new Place
+        var testPlace = new Place 
         {
-            PlaceId = 16281533,
-	        Licence = "http://osm.org/copyright",
+            PlaceId = 16281534,
+	        Licence = "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
 	        OsmType = "way",
-	        OsmId = 280940520,
-	        Latitude = -24.44,
-	        Longitude = -28.70,
+	        OsmId = 280940521,
+	        Latitude = -34.24,
+	        Longitude = -58.70,
 	        Class = "highway",
 	        Type = "motorway",
 	        PlaceRank = 26,
 	        Importance = 0.05338152361333635,
 	        AddressType = "road",
-	        Name = "Diego Eugenio Aramburu",
+	        Name = "Street Zzz",
 	        DisplayName = "Autopista Pedro Eugenio Aramburu, El Triángulo, Partido de Malvinas Argentinas, Buenos Aires, B1619AGS, Argentina",
             Address = new Address 
             {
@@ -129,17 +133,17 @@ public class RepositoryTest : IClassFixture<RepositoryFixture>
 		        State = "Buenos Aires",
 		        ISO3166_2_lvl4 = "AR-B",
 		        Postcode = "B1619AGS",
-		        Country = "Argentina",
+		        Country = "Brazil",
 		        CountryCode = "ar"
             },
-            BoundingBox = new double[] {-34.1215900, -34.4370994, -58.7086067, -58.7044712},
+            BoundingBox = new double[] {-34.4415900, -34.4370994, -58.7086067, -58.7044712},
             PlaceTag = null
         };
         
-        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId, false).Result;
+        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId).Result;
         placeRepository.Update(testPlace).Wait();
 
-        var retrievedPlace2 = placeRepository.FindByCondition( placeRepository => placeRepository.PlaceId.Equals(testPlace.PlaceId), true);
+        var retrievedPlace2 = placeRepository.GetPlaceAsync(testPlace.PlaceId).Result;
 
         var equality = retrievedPlace.Equals(retrievedPlace2);
         Assert.False(equality);
