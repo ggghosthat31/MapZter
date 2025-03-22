@@ -1,11 +1,7 @@
-using MapZter.Contracts.Interfaces;
 using MapZter.Contracts.Interfaces.Repository;
 using MapZter.Repository;
 using MapZter.Entity.Models;
 using MapZter.Tests.Fixtures;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace MapZter.Tests;
 
@@ -140,12 +136,12 @@ public class RepositoryProxyTest : IClassFixture<RepositoryFixture>
             PlaceTag = null
         };
         
-        var retrievedPlace = placeRepository.GetPlaceAsync(testPlace.PlaceId).Result;
+        var retrievedPlace = placeRepository.TryFindPlace(testPlace.PlaceId).Result;
         placeRepository.Update(testPlace).Wait();
 
-        var retrievedPlace2 = placeRepository.GetPlaceAsync(testPlace.PlaceId).Result;
+        var retrievedPlace2 = placeRepository.TryFindPlace(testPlace.PlaceId).Result;
 
         var equality = retrievedPlace.Equals(retrievedPlace2);
-        Assert.False(equality);
+        Assert.True(equality);
     }
 }

@@ -6,35 +6,35 @@ namespace MapZter.Repository;
 
 public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
 {
-    protected RepositoryContext _repostioryContext;
+    protected RepositoryContext _repositoryContext;
 
 	public RepositoryBase(RepositoryContext repositoryContext)
 	{
-		_repostioryContext = repositoryContext;
+		_repositoryContext = repositoryContext;
 	}
 	
-	public RepositoryContext CurrentDatabaseContext => _repostioryContext;
+	public RepositoryContext CurrentDatabaseContext => _repositoryContext;
 
 	public IQueryable<T> FindAll(bool trackChanges = true) =>
 		!trackChanges ?
-			_repostioryContext.Set<T>().AsNoTracking():
-			_repostioryContext.Set<T>();
+			_repositoryContext.Set<T>().AsNoTracking():
+			_repositoryContext.Set<T>();
 
 	public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) =>
 		!trackChanges ?
-			_repostioryContext.Set<T>().Where(expression).AsNoTracking():
-			_repostioryContext.Set<T>().Where(expression);
+			_repositoryContext.Set<T>().Where(expression).AsNoTracking():
+			_repositoryContext.Set<T>().Where(expression);
 
 	public void Create(T entity) =>
-		_repostioryContext.Set<T>().Add(entity);
+		_repositoryContext.Set<T>().Add(entity);
 
 	//entity update strategy depends on entity repository implementation
 	public void Update(T newEntity)
 	{}
 
 	public void Delete(T entity) =>
-		_repostioryContext.Set<T>().Remove(entity);
+		_repositoryContext.Set<T>().Remove(entity);
 
 	public async Task SaveChanges() =>
-		await _repostioryContext.SaveChangesAsync();
+		await _repositoryContext.SaveChangesAsync();
 }

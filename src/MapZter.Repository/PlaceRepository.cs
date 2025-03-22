@@ -14,6 +14,9 @@ public class PlaceRepository : RepositoryBase<Place>
 		await FindAll().OrderBy(c => c.PlaceId)
 		    .ToListAsync();
 
+	public async Task<Place?> TryFindPlace(long placeId) =>
+		await _repositoryContext.Places.FindAsync(placeId);
+
 	public async Task<Place?> GetPlaceAsync(long placeId) =>
 		await FindByCondition(x => x.PlaceId == placeId)
 		    .SingleOrDefaultAsync();
@@ -37,18 +40,18 @@ public class PlaceRepository : RepositoryBase<Place>
 
 	public async Task Update(Place updatePlace)
 	{
-		var existingPlace = await _repostioryContext.Places.FindAsync(updatePlace.PlaceId);
+		var existingPlace = await _repositoryContext.Places.FindAsync(updatePlace.PlaceId);
 
         if (existingPlace == null)
             return;
 
-        _repostioryContext.Entry(existingPlace).CurrentValues.SetValues(updatePlace);
+        _repositoryContext.Entry(existingPlace).CurrentValues.SetValues(updatePlace);
 		await SaveChanges();
 	}
 
 	public async Task Delete(long placeId)
 	{
-		var existingPlace = await _repostioryContext.Places.FindAsync(placeId);
+		var existingPlace = await _repositoryContext.Places.FindAsync(placeId);
 
         if (existingPlace == null)
             return;

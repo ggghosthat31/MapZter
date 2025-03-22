@@ -1,14 +1,8 @@
-using MapZter.Repository;
-using MapZter.Entity.Models;
-using MapZter.Contracts.Interfaces;
 using MapZter.Contracts.Interfaces.Logger;
 using MapZter.Contracts.Interfaces.Repository;
 using MapZter.Contracts.Interfaces.RepositoryProxy;
 using MapZter.Logger;
 using MapZter.Proxy;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace MapZter.Tests.Fixtures;
 
