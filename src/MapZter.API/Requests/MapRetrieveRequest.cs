@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace MapZter.API.Handlers;
+namespace MapZter.API.Requests;
 
 public record struct MapRetrieveRequest() : IRequest<string>;

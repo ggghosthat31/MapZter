@@ -1,7 +1,8 @@
 using AutoMapper;
 using MapZter.Contracts.Interfaces.Services;
 using MapZter.Entity.Models;
-using MapZter.Repository;
+using MapZter.Proxy;
+using MapZter.API.Requests;
 using MediatR;
 
 namespace MapZter.API.Handlers;
@@ -16,27 +17,23 @@ public class MapHandler :
 {
     private readonly IMapService _mapService;
     private readonly IMapper _mapper;
-    private readonly RepositoryManager _repositoryManager;
+    private readonly RepositoryProxy _repositoryProxy;
 
     public MapHandler(
         IMapService mapService,
         IMapper mapper,
-        RepositoryManager repositoryManager)
+        RepositoryProxy repositoryProxy)
     {
         _mapService = mapService;
         _mapper = mapper;
-        _repositoryManager = repositoryManager;
+        _repositoryProxy = repositoryProxy;
     }
 
-    public async Task<string> Handle(MapRetrieveRequest mapRetrieveRequest, CancellationToken cancellationToken)
-    {
-        return await _mapService.GetMap();
-    }
+    public async Task<string> Handle(MapRetrieveRequest mapRetrieveRequest, CancellationToken cancellationToken) =>
+        await _mapService.GetMap();
 
-    public async Task<string> Handle(GetServerStatusRequest getServerStatusRequest, CancellationToken cancellationToken)
-    {
-        return await _mapService.GetServerStatus();
-    }
+    public async Task<string> Handle(GetServerStatusRequest getServerStatusRequest, CancellationToken cancellationToken) =>
+        await _mapService.GetServerStatus();
     
     public async Task<Place[]> Handle(GeocodeRequest geocodeRequest, CancellationToken cancellationToken) =>
         await _mapService.Geocode(geocodeRequest.address);

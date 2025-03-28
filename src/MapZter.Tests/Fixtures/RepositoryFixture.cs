@@ -12,7 +12,7 @@ public class RepositoryFixture
     {
         LoggerManager = new LoggerManager();
         RepositoryManager = DatabaseSeeder.GenerateDatabaseConnection();
-        RepositoryProxy = new RepositoryProxy(RepositoryManager, LoggerManager);
+        RepositoryProxy = new RepositoryProxy(LoggerManager, RepositoryManager);
         Console.WriteLine("Fixture Constructor Executed Once");    
     }
 

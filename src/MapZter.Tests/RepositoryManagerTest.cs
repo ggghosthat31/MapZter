@@ -2,17 +2,22 @@ using MapZter.Contracts.Interfaces.Repository;
 using MapZter.Repository;
 using MapZter.Entity.Models;
 using MapZter.Tests.Fixtures;
+using MapZter.Contracts.Interfaces.RepositoryProxy;
 
 namespace MapZter.Tests;
 
-public class RepositoryProxyTest : IClassFixture<RepositoryFixture>
+public class RepositoryManagerTest : IClassFixture<RepositoryFixture>
 {
     private IRepositoryManager _repositoryManager;
+    
+    private IRepositoryProxy _repositoryProxy;
+    
     private PlaceRepository placeRepository => _repositoryManager.PlaceRepository as PlaceRepository;
-
-    public RepositoryProxyTest(RepositoryFixture repositoryFixture)
+    
+    public RepositoryManagerTest(RepositoryFixture repositoryFixture)
     {
         _repositoryManager = repositoryFixture.RepositoryManager;
+        _repositoryProxy = repositoryFixture.RepositoryProxy;
     }
 
     [Fact]
