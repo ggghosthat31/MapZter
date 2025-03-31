@@ -1,4 +1,6 @@
-namespace MapZter.Proxy;
+using MapZter.Proxy.Tasks;
+
+namespace MapZter.Proxy.Interactions;
 
 public class QueryException : Exception
 {

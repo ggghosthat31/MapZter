@@ -1,9 +1,6 @@
 using System.Threading.Channels;
-using MapZter.Entities.RequestFeatures;
 using MapZter.Entity.Models;
 using MapZter.Proxy;
-using MapZter.Repository;
-using NLog.LayoutRenderers;
 
 namespace MapZter.API.Services.Background;
 
@@ -24,7 +21,7 @@ public class RepositoryBackgroundService : BackgroundService
     }
 
     public void SetTask(
-        ProxyTaskType proxyTaskType,
+        TaskType proxyTaskType,
         RepositoryMutePattern repositoryMutePattern,
         IEntity inputEntity)
     {
@@ -33,7 +30,7 @@ public class RepositoryBackgroundService : BackgroundService
     }
 
     public void SetTask(
-        ProxyTaskType proxyTaskType,
+        TaskType proxyTaskType,
         RepositoryMutePattern repositoryMutePattern,
         PlaceQueryParameters inputEntity)
     {
@@ -47,9 +44,9 @@ public class RepositoryBackgroundService : BackgroundService
         {
             var task = await _channel.Reader.ReadAsync();
             
-            if (task.Type == ProxyTaskType.COMMAND_TYPE && task is ProxyTask<IEntity> currentTask)
+            if (task.Type == TaskType.COMMAND_TYPE && task is ProxyTask<IEntity> currentTask)
                 ProcessCommand(currentTask);
-            else if(task.Type == ProxyTaskType.QUERY_TYPE && task is ProxyTask<PlaceQueryParameters> currentQueryParameter)
+            else if(task.Type == TaskType.QUERY_TYPE && task is ProxyTask<PlaceQueryParameters> currentQueryParameter)
                 ProcessQuery(currentQueryParameter);
         }
     }
@@ -63,7 +60,7 @@ public class RepositoryBackgroundService : BackgroundService
         var pattern = task.Pattern;
         var detailObject = task.DetailObject;
 
-        if (type == ProxyTaskType.COMMAND_TYPE && detailObject is IEntity)
+        if (type == TaskType.COMMAND_TYPE && detailObject is IEntity)
             return _repositoryProxy.CommandAsync(pattern, detailObject);
 
         return null;
@@ -78,7 +75,7 @@ public class RepositoryBackgroundService : BackgroundService
         var pattern = task.Pattern;
         var detailObject = task.DetailObject;
 
-        if (type is ProxyTaskType.QUERY_TYPE && detailObject is PlaceQueryParameters requestParameters)
+        if (type is TaskType.QUERY_TYPE && detailObject is PlaceQueryParameters requestParameters)
             return _repositoryProxy.QueryAsync(pattern, requestParameters).Result;
         else 
             return null;
