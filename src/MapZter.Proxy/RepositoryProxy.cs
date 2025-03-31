@@ -4,6 +4,7 @@ using MapZter.Contracts.Interfaces.RepositoryProxy;
 using MapZter.Entities.RequestFeatures;
 using MapZter.Entity.Models;
 using MapZter.Repository;
+using MapZter.Proxy.Interactions;
 
 namespace MapZter.Proxy;
 
