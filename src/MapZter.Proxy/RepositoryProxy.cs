@@ -70,7 +70,7 @@ public class RepositoryProxy : IRepositoryProxy
         }
     }
 
-    private async Task<QueryResult<Place>?> RecievePlaces(RepositoryMutePattern pattern, PlaceQueryParameters queryParameters)
+    private async Task<QueryResult<Place?>> RecievePlaces(RepositoryMutePattern pattern, PlaceQueryParameters queryParameters)
     {
         try
         {
@@ -81,7 +81,7 @@ public class RepositoryProxy : IRepositoryProxy
             {
                 var retrievedCollection = pattern switch
                 {
-                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => await repository.GetPlacesAsync(queryParameters.PlaceIds),
+                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => await repository.GetPlacesAsync(queryParameters.PlacesId),
                     RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION => await repository.GetPlacesAsync(parameters),
                     RepositoryMutePattern.GET_ALL => await repository.GetAllPlacesAsync(),
                 } ?? throw new NullReferenceException("Could not detect prefered repository pattern.");
@@ -110,7 +110,7 @@ public class RepositoryProxy : IRepositoryProxy
         return exception;
     }
 
-    private async Task<object?> Process(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyInputParameters)
+    private async Task<QueryResult<Place?>> Process(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyInputParameters)
     {
         if (repositoryPattern is RepositoryMutePattern.GET_SINGLE)
             return await RecievePlace(proxyInputParameters.PlaceId);
@@ -122,12 +122,12 @@ public class RepositoryProxy : IRepositoryProxy
     public CommandResult Command(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
         Manage(repositoryPattern, proxyInputEntity).Result;
 
-    public CommandResult CommandAsync(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
-        Manage(repositoryPattern, proxyInputEntity).Result;
+    public Task<CommandResult> CommandAsync(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
+        Manage(repositoryPattern, proxyInputEntity);
 
-    public object? Query(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyObserveParameters) =>
+    public QueryResult<Place>? Query(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyObserveParameters) =>
         Process(repositoryPattern, proxyObserveParameters).Result;
 
-    public async Task<object?> QueryAsync(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyObserveParameters) =>
+    public async Task<QueryResult<Place>?> QueryAsync(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyObserveParameters = default) =>
         await Process(repositoryPattern, proxyObserveParameters);
 }

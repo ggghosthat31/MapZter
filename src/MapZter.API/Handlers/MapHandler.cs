@@ -47,3 +47,4 @@ public class MapHandler :
     public async Task<Place[]> Handle(LookupRequest lookupRequest, CancellationToken cancellationToken) =>
         await _mapService.Lookup(lookupRequest.type, lookupRequest.placeId);
 }
+

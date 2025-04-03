@@ -1,3 +1,5 @@
+using MapZter.Proxy.Interactions;
+
 namespace MapZter.Proxy;
 
 public record QueryResult<T> : IResult

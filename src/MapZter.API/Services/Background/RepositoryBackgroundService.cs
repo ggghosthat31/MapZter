@@ -1,6 +1,8 @@
 using System.Threading.Channels;
 using MapZter.Entity.Models;
 using MapZter.Proxy;
+using MapZter.Proxy.Tasks;
+using MapZter.Proxy.Interactions;
 
 namespace MapZter.API.Services.Background;
 
@@ -61,7 +63,7 @@ public class RepositoryBackgroundService : BackgroundService
         var detailObject = task.DetailObject;
 
         if (type == TaskType.COMMAND_TYPE && detailObject is IEntity)
-            return _repositoryProxy.CommandAsync(pattern, detailObject);
+            return _repositoryProxy.CommandAsync(pattern, detailObject).Result;
 
         return null;
     }
