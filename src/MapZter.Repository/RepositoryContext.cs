@@ -10,4 +10,6 @@ public class RepositoryContext : IdentityDbContext
     {}
 
     public DbSet<Place> Places { get; set; }
+    
+    public DbSet<GeoPoint> GeoPoints { get; set; }
 }

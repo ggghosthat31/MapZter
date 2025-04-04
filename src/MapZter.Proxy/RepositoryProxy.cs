@@ -70,7 +70,27 @@ public class RepositoryProxy : IRepositoryProxy
         }
     }
 
-    private async Task<QueryResult<Place?>> RecievePlaces(RepositoryMutePattern pattern, PlaceQueryParameters queryParameters)
+    private async Task<QueryResult<GeoPoint?>> RecieveGeoPoint(long geoPointId)
+    {
+        try
+        {
+            GeoPoint? place;
+            var repositoryInstance = _repositoryManager.GeoPointRepository;
+            if (repositoryInstance is GeoPointRepository repository)
+                place =  await repository.GetGeoPointAsync(geoPointId);
+            else throw new ArgumentException($"Input arguments does not match the desired signature. Repostitory type: {repositoryInstance.GetType().FullName}.");
+        
+            var succeded = place is null;
+            return new QueryResult<GeoPoint?>(succeded, message: String.Empty, capacity: 1, entity: place);
+        }
+        catch (Exception ex)
+        {
+            _loggerManager.LogError($"Error trace: {ex.Message}");
+            return new QueryResult<GeoPoint?>(false, message: ex.Message, capacity: 0);
+        }
+    }
+
+    private async Task<QueryResult<Place?>> RecievePlaces(RepositoryMutePattern pattern, RequestQueryParameters queryParameters)
     {
         try
         {
@@ -81,7 +101,7 @@ public class RepositoryProxy : IRepositoryProxy
             {
                 var retrievedCollection = pattern switch
                 {
-                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => await repository.GetPlacesAsync(queryParameters.PlacesId),
+                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => await repository.GetPlacesAsync(queryParameters.EntitiesId),
                     RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION => await repository.GetPlacesAsync(parameters),
                     RepositoryMutePattern.GET_ALL => await repository.GetAllPlacesAsync(),
                 } ?? throw new NullReferenceException("Could not detect prefered repository pattern.");
@@ -89,7 +109,7 @@ public class RepositoryProxy : IRepositoryProxy
                 bool succeded = retrievedCollection.Count() > 0;
 
                 if (succeded)
-                    return new QueryResult<Place>(succeded, message: String.Empty, capacity: retrievedCollection.Count(), entityCollection: retrievedCollection);
+                    return new QueryResult<Place?>(succeded, message: String.Empty, capacity: retrievedCollection.Count(), entityCollection: retrievedCollection);
                 else 
                     throw ThrowQueryException(pattern, queryParameters);
             }
@@ -98,11 +118,43 @@ public class RepositoryProxy : IRepositoryProxy
         catch (Exception ex)
         {
             _loggerManager.LogError(ex);
-            return new QueryResult<Place>(false, message: String.Empty, capacity: 0);
+            return new QueryResult<Place?>(false, message: String.Empty, capacity: 0);
         }
     }
 
-    private Exception ThrowQueryException(RepositoryMutePattern pattern, PlaceQueryParameters queryParameters)
+    private async Task<QueryResult<GeoPoint>> RecieveGeoPoints(RepositoryMutePattern pattern, RequestQueryParameters queryParameters)
+    {
+        try
+        {
+            var repositoryInstance = _repositoryManager.GeoPointRepository;
+            var requestParameters = queryParameters.RequestParameters;
+
+            if (repositoryInstance is GeoPointRepository repository && requestParameters is GeoPointParameters parameters)
+            {
+                var retrievedCollection = pattern switch
+                {
+                    RepositoryMutePattern.GET_MULTIPLE_BY_ID => await repository.GetGeoPointsAsync(queryParameters.EntitiesId),
+                    RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION => await repository.GetGeoPointsAsync(parameters),
+                    RepositoryMutePattern.GET_ALL => await repository.GetAllGeoPointsAsync(),
+                } ?? throw new NullReferenceException("Could not detect prefered repository pattern.");
+                
+                bool succeded = retrievedCollection.Count() > 0;
+
+                if (succeded)
+                    return new QueryResult<GeoPoint>(succeded, message: String.Empty, capacity: retrievedCollection.Count(), entityCollection: retrievedCollection);
+                else 
+                    throw ThrowQueryException(pattern, queryParameters);
+            }
+            else throw new ArgumentException($"Input arguments does not match the desired signature. Repostitory type: {repositoryInstance.GetType().FullName}. Input entity type: {requestParameters.GetType().FullName}");
+        }
+        catch (Exception ex)
+        {
+            _loggerManager.LogError(ex);
+            return new QueryResult<GeoPoint>(false, message: String.Empty, capacity: 0);
+        }
+    }
+
+    private Exception ThrowQueryException(RepositoryMutePattern pattern, RequestQueryParameters queryParameters)
     {
         var exception = new QueryException("Could find entities within input arguments.");
         exception.Data["Pattern"] = pattern;
@@ -110,24 +162,29 @@ public class RepositoryProxy : IRepositoryProxy
         return exception;
     }
 
-    private async Task<QueryResult<Place?>> Process(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyInputParameters)
+    private async Task<IResult> Process<T>(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyInputParameters)
     {
-        if (repositoryPattern is RepositoryMutePattern.GET_SINGLE)
-            return await RecievePlace(proxyInputParameters.PlaceId);
-        else if (repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
+        if (typeof(T) == typeof(Place) && repositoryPattern is RepositoryMutePattern.GET_SINGLE)
+            return await RecievePlace(proxyInputParameters.EntityId);
+        else if (typeof(T) == typeof(Place) && repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
             return await RecievePlaces(repositoryPattern, proxyInputParameters);
-        else return default;
+        else if (typeof(T) == typeof(GeoPoint) && repositoryPattern is RepositoryMutePattern.GET_SINGLE)
+            return await RecieveGeoPoint(proxyInputParameters.EntityId);
+        else if (typeof(T) == typeof(GeoPoint) && repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
+            return await RecieveGeoPoints(repositoryPattern, proxyInputParameters);
+        else return null;
     }
 
+    //external API communication
     public CommandResult Command(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
         Manage(repositoryPattern, proxyInputEntity).Result;
 
     public Task<CommandResult> CommandAsync(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
         Manage(repositoryPattern, proxyInputEntity);
 
-    public QueryResult<Place>? Query(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyObserveParameters) =>
-        Process(repositoryPattern, proxyObserveParameters).Result;
+    public IResult Query<T>(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyObserveParameters) =>
+        Process<T>(repositoryPattern, proxyObserveParameters).Result;
 
-    public async Task<QueryResult<Place>?> QueryAsync(RepositoryMutePattern repositoryPattern, PlaceQueryParameters proxyObserveParameters = default) =>
-        await Process(repositoryPattern, proxyObserveParameters);
+    public async Task<IResult> QueryAsync<T>(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyObserveParameters = default) =>
+        await Process<T>(repositoryPattern, proxyObserveParameters);
 }

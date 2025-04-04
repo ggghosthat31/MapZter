@@ -1,11 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
 namespace MapZter.Entity.Models;
 
-public struct GeoPoint(double lat, double lon) : IEntity, IPointMatchable<GeoPoint>
+public class GeoPoint(double lat, double lon) : IEntity, IPointMatchable<GeoPoint>
 {
+    [Key]
+    [JsonProperty("geo_point_id")]
     public long Id { get; set; }
 
+    [JsonProperty("Latitude")]
     public double Latitude { get; set; } = lat;
 
+    [JsonProperty("Longitude")]
     public double Longitude { get; set; } = lon;
 
     private static double SliceVector(double value) => 

@@ -14,7 +14,7 @@ public class PlaceRepository : RepositoryBase<Place>
 		await FindAll().OrderBy(c => c.PlaceId)
 		    .ToListAsync();
 
-	public async Task<Place?> TryFindPlace(long placeId) =>
+	public async Task<Place?> FindPlaceAsync(long placeId) =>
 		await _repositoryContext.Places.FindAsync(placeId);
 
 	public async Task<Place?> GetPlaceAsync(long placeId) =>

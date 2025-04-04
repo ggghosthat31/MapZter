@@ -141,10 +141,10 @@ public class RepositoryManagerTest : IClassFixture<RepositoryFixture>
             PlaceTag = null
         };
         
-        var retrievedPlace = placeRepository.TryFindPlace(testPlace.PlaceId).Result;
+        var retrievedPlace = placeRepository.FindPlaceAsync(testPlace.PlaceId).Result;
         placeRepository.Update(testPlace).Wait();
 
-        var retrievedPlace2 = placeRepository.TryFindPlace(testPlace.PlaceId).Result;
+        var retrievedPlace2 = placeRepository.FindPlaceAsync(testPlace.PlaceId).Result;
 
         var equality = retrievedPlace.Equals(retrievedPlace2);
         Assert.True(equality);

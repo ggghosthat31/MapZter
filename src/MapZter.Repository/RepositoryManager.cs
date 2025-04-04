@@ -9,6 +9,8 @@ public class RepositoryManager : IRepositoryManager
 
     private PlaceRepository _placeRepository;
 
+    private GeoPointRepository _geoPointRepository;
+
     public RepositoryManager(RepositoryContext repositoryContext) =>
         _repostioryContext = repositoryContext;
 
@@ -17,6 +19,13 @@ public class RepositoryManager : IRepositoryManager
         get => (_placeRepository == null) 
             ? _placeRepository = new PlaceRepository(_repostioryContext)
             : _placeRepository;
+    }
+
+    public IEntityRepository<GeoPoint> GeoPointRepository
+    {
+        get => (_geoPointRepository == null) 
+            ? _geoPointRepository = new GeoPointRepository(_repostioryContext)
+            : _geoPointRepository;
     }
 
     public async Task SaveAsync() =>
