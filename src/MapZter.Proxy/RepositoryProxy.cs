@@ -5,6 +5,7 @@ using MapZter.Entities.RequestFeatures;
 using MapZter.Entity.Models;
 using MapZter.Repository;
 using MapZter.Proxy.Interactions;
+using System.Formats.Asn1;
 
 namespace MapZter.Proxy;
 
@@ -122,7 +123,7 @@ public class RepositoryProxy : IRepositoryProxy
         }
     }
 
-    private async Task<QueryResult<GeoPoint>> RecieveGeoPoints(RepositoryMutePattern pattern, RequestQueryParameters queryParameters)
+    private async Task<QueryResult<GeoPoint?>> RecieveGeoPoints(RepositoryMutePattern pattern, RequestQueryParameters queryParameters)
     {
         try
         {
@@ -162,29 +163,25 @@ public class RepositoryProxy : IRepositoryProxy
         return exception;
     }
 
-    private async Task<IResult> Process<T>(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyInputParameters)
-    {
-        if (typeof(T) == typeof(Place) && repositoryPattern is RepositoryMutePattern.GET_SINGLE)
-            return await RecievePlace(proxyInputParameters.EntityId);
-        else if (typeof(T) == typeof(Place) && repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
-            return await RecievePlaces(repositoryPattern, proxyInputParameters);
-        else if (typeof(T) == typeof(GeoPoint) && repositoryPattern is RepositoryMutePattern.GET_SINGLE)
-            return await RecieveGeoPoint(proxyInputParameters.EntityId);
-        else if (typeof(T) == typeof(GeoPoint) && repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
-            return await RecieveGeoPoints(repositoryPattern, proxyInputParameters);
-        else return null;
-    }
-
-    //external API communication
-    public CommandResult Command(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
-        Manage(repositoryPattern, proxyInputEntity).Result;
 
     public Task<CommandResult> CommandAsync(RepositoryMutePattern repositoryPattern, IEntity proxyInputEntity) =>
         Manage(repositoryPattern, proxyInputEntity);
 
-    public IResult Query<T>(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyObserveParameters) =>
-        Process<T>(repositoryPattern, proxyObserveParameters).Result;
+    public async Task<QueryResult<Place?>> QueryPlaceEntity(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyInputParameters = default)
+    {
+        if (repositoryPattern is RepositoryMutePattern.GET_SINGLE)
+            return await RecievePlace(proxyInputParameters.EntityId);
+        else if (repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
+            return await RecievePlaces(repositoryPattern, proxyInputParameters);
+        else return null;
+    }
 
-    public async Task<IResult> QueryAsync<T>(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyObserveParameters = default) =>
-        await Process<T>(repositoryPattern, proxyObserveParameters);
+    public async Task<QueryResult<GeoPoint?>> QueryGeoPointEntity(RepositoryMutePattern repositoryPattern, RequestQueryParameters proxyInputParameters = default) 
+    {
+        if (repositoryPattern is RepositoryMutePattern.GET_SINGLE)
+            return await RecieveGeoPoint(proxyInputParameters.EntityId);
+        else if (repositoryPattern is (RepositoryMutePattern.GET_ALL | RepositoryMutePattern.GET_MULTIPLE_BY_ID | RepositoryMutePattern.GET_MULTIPLE_BY_CONDITION))
+            return await RecieveGeoPoints(repositoryPattern, proxyInputParameters);
+        else return null;
+    }
 }
