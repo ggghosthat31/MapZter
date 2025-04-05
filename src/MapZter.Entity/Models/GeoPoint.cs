@@ -3,17 +3,29 @@ using Newtonsoft.Json;
 
 namespace MapZter.Entity.Models;
 
-public class GeoPoint(double lat, double lon) : IEntity, IPointMatchable<GeoPoint>
+public class GeoPoint : IEntity, IPointMatchable<GeoPoint>
 {
+
+    public GeoPoint()
+    {
+        
+    }
+
+    public GeoPoint(double lat, double lon)
+    {
+        Latitude = lat;
+        Longitude = lon;
+    }
+
     [Key]
     [JsonProperty("geo_point_id")]
     public long Id { get; set; }
 
     [JsonProperty("Latitude")]
-    public double Latitude { get; set; } = lat;
+    public double Latitude { get; set; }
 
     [JsonProperty("Longitude")]
-    public double Longitude { get; set; } = lon;
+    public double Longitude { get; set; }
 
     private static double SliceVector(double value) => 
         Math.Round(value, 2, MidpointRounding.ToZero);
