@@ -7,9 +7,7 @@ public class Place : IEntity
 {
 
     public Place()
-    {
-        
-    }
+    {}
     
     [Key]
     [JsonProperty("place_id")]
