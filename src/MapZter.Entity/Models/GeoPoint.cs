@@ -7,9 +7,7 @@ public class GeoPoint : IEntity, IPointMatchable<GeoPoint>
 {
 
     public GeoPoint()
-    {
-        
-    }
+    {}
 
     public GeoPoint(double lat, double lon)
     {
