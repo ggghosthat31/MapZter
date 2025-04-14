@@ -5,7 +5,7 @@ using System.Linq.Dynamic.Core;
 
 namespace MapZter.Repository.Extensions;
 
-public static class GeoPointRepositoryExtensions
+public static class GeoPointExtensions
 {
     private static bool Match(GeoPoint geoPoint, GeoPointParameters geoPointParameters) =>
         geoPoint.Latitude == geoPointParameters.Latitude &&

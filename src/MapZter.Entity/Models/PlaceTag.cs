@@ -5,9 +5,7 @@ namespace MapZter.Entity.Models;
 
 public class PlaceTag : IEntity
 {
-    [Key]
-    public long Id { get; set; }
-    
+    [Key]    
     [JsonProperty("place_tag_id")]
     public long PlaceTagId {get; set;}
     
