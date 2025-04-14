@@ -3,7 +3,7 @@ using MapZter.Entity.Models;
 using MapZter.Entity.Dto;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyApp.Namespace;
+namespace MapZter.API;
 
 [Route("api/[controller]")]
 [ApiController]

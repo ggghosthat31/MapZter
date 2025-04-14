@@ -8,19 +8,19 @@ namespace MapZter.API;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PlaceControler : ControllerBase
+public class GeoPointControler : ControllerBase
 {
     private readonly RepositoryProxy _repositoryProxy;
 
-    public PlaceControler(RepositoryProxy repositoryProxy)
+    public GeoPointControler(RepositoryProxy repositoryProxy)
     {
         _repositoryProxy = repositoryProxy;
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreatePlace([FromBody] Place place)
+    public async Task<IActionResult> CreateGeoPoint([FromBody] GeoPoint geoPoint)
     {
-        var commandResult = await _repositoryProxy.CommandAsync(RepositoryMutePattern.CREATE, place);
+        var commandResult = await _repositoryProxy.CommandAsync(RepositoryMutePattern.CREATE, geoPoint);
 
         if (commandResult.IsSuccess)
             return Ok();            

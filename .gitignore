@@ -8,6 +8,8 @@ src/MapZter.Entity/bin
 src/MapZter.Entity/obj
 src/MapZter.Logger/bin
 src/MapZter.Logger/obj
+src/MapZter.Proxy/bin
+src/MapZter.Proxy/obj
 src/MapZter.Repository/bin
 src/MapZter.Repository/obj
 src/MapZter.Tests/bin
