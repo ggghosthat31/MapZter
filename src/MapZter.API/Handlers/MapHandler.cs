@@ -1,7 +1,5 @@
-using AutoMapper;
 using MapZter.Contracts.Interfaces.Services;
 using MapZter.Entity.Models;
-using MapZter.Proxy;
 using MapZter.API.Requests;
 using MediatR;
 
@@ -16,17 +14,10 @@ public class MapHandler :
     IRequestHandler<GetServerStatusRequest, string>
 {
     private readonly IMapService _mapService;
-    private readonly IMapper _mapper;
-    private readonly RepositoryProxy _repositoryProxy;
 
-    public MapHandler(
-        IMapService mapService,
-        IMapper mapper,
-        RepositoryProxy repositoryProxy)
+    public MapHandler(IMapService mapService)
     {
         _mapService = mapService;
-        _mapper = mapper;
-        _repositoryProxy = repositoryProxy;
     }
 
     public async Task<string> Handle(MapRetrieveRequest mapRetrieveRequest, CancellationToken cancellationToken) =>

@@ -14,5 +14,7 @@ rm -rf ../src/MapZter.Repository/bin
 rm -rf ../src/MapZter.Repository/obj
 rm -rf ../src/MapZter.Tests/bin
 rm -rf ../src/MapZter.Tests/obj
+rm -rf ../out/linux
+rm -rf ../out/win
 
 echo 'Project has been cleaned up.'
